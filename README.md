@@ -36,18 +36,12 @@ IMAGES USED FOR TEXTURES:
 [Figure 4] Ball: https://live.staticflickr.com/4022/4289809947_06ffd6b30b_b.jpg
 
 
-I certify that this submission is my original work and meets the Faculty's Expectations of Originality
+We certify that this submission is our original work and meets the Faculty's Expectations of Originality
 
 Features and Functionalities:
 -----------------------------
 
-     I was able to render textures onto my object models. However, I was not able to implement a light source
-and render shadows properly onto my world scene. 
 
-Overall Self-Evaluation:
+Overall Team-Evaluation:
 -------------------------
 
-     I had difficulties understanding how to render and implement shadows into my world model.
-I had tried the modify the example codes from the Lab 8 for the light sources and shadows. However, 
-I did not know how to configure the shadows on to my world scene. Given the strict time constrains,
-I could only implement the texture mapping and proper racket and letter rotations.
