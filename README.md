@@ -12,7 +12,7 @@
 
  DUE: FRIDAY, AUGUST 11, 2023
   
- @author Joy Anne Valdez	Student ID: 26339379
+ @author Joy Anne Valdez	26339379
 
 
 REFERENCES:
