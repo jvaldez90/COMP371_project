@@ -43,9 +43,6 @@
 #include "textureVertShader.h"
 #include "textureFragShader.h"
 
-// #include "lightFrag.h"
-// #include "lightVert.h"
-
 using namespace glm;
 using namespace std;
 
