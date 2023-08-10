@@ -359,8 +359,6 @@ int main(int argc, char *argv[])
             { // World Environment Set up
                 glBindTexture(GL_TEXTURE_2D, clayTextureID);
                 draw_ground(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
-                glBindTexture(GL_TEXTURE_2D, ballTextureID);
-                draw_ball(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), polygons, activeVAO, activeVertices);
                 glBindTexture(GL_TEXTURE_2D, courtTextureID);
                 draw_court(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
             }
@@ -426,7 +424,6 @@ int main(int argc, char *argv[])
                 {
                     // draw_light(shaderShadow, worldMatrixLocation, vec3(0.0f, 20.f, 0.0f), activeVAO, activeVertices);
                     draw_net(shaderScene, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), activeVAO, activeVertices);
-                    draw_ball(shaderScene, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), polygons, activeVAO, activeVertices);
 
                     draw_V(shaderScene, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
 

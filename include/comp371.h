@@ -35,7 +35,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "vertexData.h"
-#include "sphereData.h"
 
 #include "vertexShader.h"
 #include "fragmentShader.h"
