@@ -14,7 +14,7 @@
   
  @author Joy Anne Valdez	26339379
  @author Cristian Tesa 40157750
-
+ @author Gabriel Rodriguez 40208888
 
 REFERENCES:
 [1] Lab 1: Examples referenced from Lab01 code
