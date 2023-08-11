@@ -112,8 +112,8 @@ int main(int argc, char *argv[])
 
     // REFERENCES from [LAB 8]
     std::string shaderPathPrefix = "assets/shaders/";
-    GLuint shaderScene = loadSHADER(shaderPathPrefix + "scene_vertex.glsl", shaderPathPrefix + "scene_fragment.glsl");
-    GLuint shaderShadow = loadSHADER(shaderPathPrefix + "shadow_vertex.glsl", shaderPathPrefix + "shadow_fragment.glsl");
+    GLuint shaderScene = loadSHADER(shaderPathPrefix + "lightVert.glsl", shaderPathPrefix + "lightFrag.glsl");
+    GLuint shaderShadow = loadSHADER(shaderPathPrefix + "shadowVert.glsl", shaderPathPrefix + "shadowFrag.glsl");
 
     // REFERENCE from [LAB 4]
     // Compile and link shaders
