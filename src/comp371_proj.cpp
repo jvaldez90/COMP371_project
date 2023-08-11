@@ -359,8 +359,6 @@ int main(int argc, char *argv[])
             { // World Environment Set up
                 glBindTexture(GL_TEXTURE_2D, clayTextureID);
                 draw_ground(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
-                glBindTexture(GL_TEXTURE_2D, ballTextureID);
-                draw_ball(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), polygons, activeVAO, activeVertices);
                 glBindTexture(GL_TEXTURE_2D, courtTextureID);
                 draw_court(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
             }
@@ -368,9 +366,7 @@ int main(int argc, char *argv[])
             glBindTexture(GL_TEXTURE_2D, glossTextureID);
             draw_net(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), activeVAO, activeVertices);
             draw_V(texturedShaderProgram, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
-            // draw_A(texturedShaderProgram, worldMatrixLocation, vec3(-3.0f, 2.5f, 1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
-            draw_L(texturedShaderProgram, worldMatrixLocation, vec3(3.0f, 2.5f, -1.7f), -degrees, worldRotation, worldScale, activeVAO, activeVertices);
-            // draw_D(texturedShaderProgram, worldMatrixLocation, vec3(3.0f, 2.5f, 1.7f), -degrees, worldRotation, worldScale, activeVAO, activeVertices);
+
             // is_textureOn = false;
         }
         // Toggle between on/off for shadows
@@ -394,14 +390,10 @@ int main(int argc, char *argv[])
                 glBindVertexArray(activeVAO);
                 // Draw geometry
                 {
-                    // draw_light(shaderShadow, worldMatrixLocation, vec3(0.0f, 20.f, 0.0f), activeVAO, activeVertices);
                     draw_net(shaderShadow, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), activeVAO, activeVertices);
-                    draw_ball(shaderShadow, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), polygons, activeVAO, activeVertices);
 
                     draw_V(shaderShadow, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
-                    // draw_A(shaderShadow, worldMatrixLocation, vec3(-3.0f, 2.5f, 1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
-                    draw_L(shaderShadow, worldMatrixLocation, vec3(3.0f, 2.5f, -1.7f), -degrees, worldRotation, worldScale, activeVAO, activeVertices);
-                    // draw_D(shaderShadow, worldMatrixLocation, vec3(3.0f, 2.5f, 1.7f), -degrees, worldRotation, worldScale, activeVAO, activeVertices);
+
                     // glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
                 }
                 // Unbind geometry
@@ -432,12 +424,9 @@ int main(int argc, char *argv[])
                 {
                     // draw_light(shaderShadow, worldMatrixLocation, vec3(0.0f, 20.f, 0.0f), activeVAO, activeVertices);
                     draw_net(shaderScene, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), activeVAO, activeVertices);
-                    draw_ball(shaderScene, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), polygons, activeVAO, activeVertices);
 
                     draw_V(shaderScene, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
-                    // draw_A(shaderScene, worldMatrixLocation, vec3(-3.0f, 2.5f, 1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
-                    draw_L(shaderScene, worldMatrixLocation, vec3(3.0f, 2.5f, -1.7f), -degrees, worldRotation, worldScale, activeVAO, activeVertices);
-                    // draw_D(shaderScene, worldMatrixLocation, vec3(3.0f, 2.5f, 1.7f), -degrees, worldRotation, worldScale, activeVAO, activeVertices);
+
                     // glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
                 }
 
@@ -449,9 +438,6 @@ int main(int argc, char *argv[])
 
         // DRAW OBJECTS into the scene
         { // Static Objects
-            draw_light(colorShaderProgram, worldMatrixLocation, vec3(-10.0f, 20.f, 0.0f), activeVAO, activeVertices);
-            draw_light(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 20.f, 0.0f), activeVAO, activeVertices);
-            draw_light(colorShaderProgram, worldMatrixLocation, vec3(10.0f, 20.f, 0.0f), activeVAO, activeVertices);
 
             draw_ground(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
             draw_court(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
@@ -459,12 +445,7 @@ int main(int argc, char *argv[])
             draw_courtLines(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
         }
 
-        draw_ball(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), polygons, activeVAO, activeVertices);
-
         draw_V(colorShaderProgram, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
-        // draw_A(colorShaderProgram, worldMatrixLocation, vec3(-3.0f, 2.5f, 1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
-        draw_L(colorShaderProgram, worldMatrixLocation, vec3(3.0f, 2.5f, -1.7f), -degrees, worldRotation, worldScale, activeVAO, activeVertices);
-        // draw_D(colorShaderProgram, worldMatrixLocation, vec3(3.0f, 2.5f, 1.7f), -degrees, worldRotation, worldScale, activeVAO, activeVertices);
 
         /* DRAWING AN ENVIRONMENT into scene */
         // Draw an empty court on the in the negative z-plane

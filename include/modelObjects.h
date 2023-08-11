@@ -25,16 +25,12 @@
 #include "textureVertShader.h"
 #include "textureFragShader.h"
 
-#include "lightFrag.h"
-#include "lightVert.h"
 
 using namespace glm;
 using namespace std;
 
 // For Changing the rendering of the geometric shapes
 float polygons = GL_TRIANGLES;
-
-void draw_light(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation,  GLuint activeVAO, int activeVertices);
 
 // OBJECT CREATIONS ---------------------------------------
 void draw_grid(int cubeAO, int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation);
@@ -45,34 +41,11 @@ void draw_courtLines(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTr
 void draw_ground(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation);
 
 void draw_V(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, GLuint activeVAO, int activeVertices);
-void draw_A(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, GLuint activeVAO, int activeVertices);
-void draw_L(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, GLuint activeVAO, int activeVertices);
-void draw_D(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, GLuint activeVAO, int activeVertices);
 
 void draw_racket(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, float polygons, GLuint activeVAO, int activeVertices);
 void draw_arm(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, float polygons, GLuint activeVAO, int activeVertices);
 
-void draw_ball(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float polygons, GLuint activeVAO, int activeVertices);
-
 /********************************************************************************************************/
-/**************************
- * DRAWING A LIGHT SOURCE *
- **************************/
-void draw_light(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation,  GLuint activeVAO, int activeVertices)
-{
-    // Compile and link shaders
-    glUseProgram(shaderProgram);
-    // glBindVertexArray(activeVAO);
-
-    int lightAO = createTexturedCubeVertexArrayObject();
-    glBufferData(GL_ARRAY_BUFFER, sizeof(whiteCube), whiteCube, GL_STATIC_DRAW);
-
-    mat4 lightMatrix = translate(mat4(1.0), worldTranslation);
-    setWorldMatrix(shaderProgram, lightMatrix);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    // glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-}
 /********************************************************************************************************/
 /*************************
  * DRAWING MODEL OBJECTS *
@@ -172,11 +145,11 @@ void draw_net(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslati
     setWorldMatrix(shaderProgram, tennisPoleMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
+    // glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
 
     tennisPoleMatrix = translate(mat4(1.0), worldTranslation) *
-                            translate(mat4(1.0), vec3(0.0f, 0.66f, 0.0f)) *
-                            scale(mat4(1.0), scaledPoles);
+                       translate(mat4(1.0), vec3(0.0f, 0.66f, 0.0f)) *
+                       scale(mat4(1.0), scaledPoles);
     setWorldMatrix(shaderProgram, tennisPoleMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -240,7 +213,7 @@ void draw_net(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslati
                       scale(mat4(1.0), vec3(0.02, 0.02f, 8.6f));
     setWorldMatrix(shaderProgram, tennisNetMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
-    //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
+    // glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
 }
 // Drawing a tennis court ----------------------------------------------------------
 void draw_court(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation)
@@ -359,8 +332,7 @@ void draw_ground(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTransl
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 //*************************************************************************************************************
-// Drawing the Letter Characters -------------------------------------
-/****** V ******/
+// Drawing the Letter Character V
 void draw_V(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, GLuint activeVAO, int activeVertices)
 {
     // Compile and link shaders
@@ -388,134 +360,10 @@ void draw_V(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation
                         scale(mat4(1.0), scaled);
     setWorldMatrix(shaderProgram, VcubeMatrix2);
     glDrawArrays(GL_TRIANGLES, 0, 36);
-    //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
+    // glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
 
-    worldTranslation = vec3(-3.5f, 0.5f, -1.7);
+    // worldTranslation = vec3(-3.5f, 0.5f, -1.7);
 
-    draw_racket(shaderProgram, worldMatrixLocation, worldTranslation, degrees, worldRotation, worldScale, polygons, activeVAO, activeVertices);
-}
-//------------------------------------------------------------------------------
-/****** A ******/
-void draw_A(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, GLuint activeVAO, int activeVertices)
-{
-    // Compile and link shaders
-    glUseProgram(shaderProgram);
-    // glBindVertexArray(activeVAO);
-
-    int AcubeAO = createVertexBufferObject();
-    glBindVertexArray(AcubeAO);
-    vec3 scaled = vec3(0.2f, 1.5f, 0.2f);
-
-    vec3 worldScaled = vec3(0.25f, 0.25f, 0.25f);
-
-    mat4 AcubeMatrix1 = translate(mat4(1.0), worldTranslation)  * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
-                        translate(mat4(1.0), vec3(-1.0f, 1.0f, 0.0f)) *
-                        rotate(mat4(1.0), radians(-30.0f), vec3(0.0f, 0.0f, 1.0f)) *
-                        scale(mat4(1.0), scaled);
-    setWorldMatrix(shaderProgram, AcubeMatrix1);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    // //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-    mat4 AcubeMatrix2 = translate(mat4(1.0), worldTranslation)  * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
-                        translate(mat4(1.0), vec3(-0.35f, 1.0f, 0.0f)) *
-                        rotate(mat4(1.0), radians(30.0f), vec3(0.0f, 0.0f, 1.0f)) *
-                        scale(mat4(1.0), scaled);
-    setWorldMatrix(shaderProgram, AcubeMatrix2);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    // //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-    mat4 AcubeMatrix3 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
-                        translate(mat4(1.0), vec3(-0.7f, 0.75f, 0.0f)) *
-                        rotate(mat4(1.0), radians(90.0f), vec3(0.0f, 0.0f, 1.0f)) *
-                        scale(mat4(1.0), scaled);
-    setWorldMatrix(shaderProgram, AcubeMatrix3);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-    worldTranslation = vec3(-3.5f, 0.5f, 1.7);
-    draw_racket(shaderProgram, worldMatrixLocation, worldTranslation, degrees, worldRotation, worldScale, polygons, activeVAO, activeVertices);
-}
-//-------------------------------------------------------------------------------
-/***** L ******/
-void draw_L(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, GLuint activeVAO, int activeVertices)
-{
-    // Compile and link shaders
-    glUseProgram(shaderProgram);
-    // glBindVertexArray(activeVAO);
-
-    int LcubeAO = createVertexBufferObject();
-    glBindVertexArray(LcubeAO);
-    vec3 scaled = vec3(0.2f, 1.5f, 0.2f);
-    vec3 scaled2 = vec3(0.2f, 1.0f, 0.2f);
-
-    vec3 worldScaled = vec3(0.25f, 0.25f, 0.25f);
-
-    mat4 LcubeMatrix1 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
-                        translate(mat4(1.0), vec3(1.0f, 1.0f, 0.0f)) *
-                        scale(mat4(1.0), scaled);
-    setWorldMatrix(shaderProgram, LcubeMatrix1);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    // //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-    mat4 LcubeMatrix2 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
-                        translate(mat4(1.0), vec3(1.5f, 0.35f, 0.0f)) *
-                        rotate(mat4(1.0), radians(90.0f), vec3(0.0f, 0.0f, 1.0f)) *
-                        scale(mat4(1.0), scaled2);
-    setWorldMatrix(shaderProgram, LcubeMatrix2);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-    worldTranslation = vec3(3.0f, 0.5f, -1.7);
-    draw_racket(shaderProgram, worldMatrixLocation, worldTranslation, degrees, worldRotation, worldScale, polygons, activeVAO, activeVertices);
-}
-//-------------------------------------------------------------------------------
-/****** D ******/
-void draw_D(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, GLuint activeVAO, int activeVertices)
-{
-    // Compile and link shaders
-    glUseProgram(shaderProgram);
-    // glBindVertexArray(activeVAO);
-
-    int DcubeAO = createVertexBufferObject();
-    glBindVertexArray(DcubeAO);
-
-    vec3 scaled = vec3(0.2f, 1.5f, 0.2f);
-    vec3 scaled2 = vec3(0.2f, 1.0f, 0.2f);
-    vec3 scaled3 = vec3(0.2f, 1.25f, 0.2f);
-
-    vec3 worldScaled = vec3(0.25f, 0.25f, 0.25f);
-
-    mat4 DcubeMatrix1 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
-                        translate(mat4(1.0), vec3(1.0f, 1.0f, 0.0)) *
-                        scale(mat4(1.0), scaled);
-    setWorldMatrix(shaderProgram, DcubeMatrix1);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    // //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-    mat4 DcubeMatrix2 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
-                        translate(mat4(1.0), vec3(1.45f, 1.65f, 0.0f)) *
-                        rotate(mat4(1.0), radians(90.0f), vec3(0.0f, 0.0f, 1.0f)) *
-                        scale(mat4(1.0), scaled2);
-    setWorldMatrix(shaderProgram, DcubeMatrix2);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    // //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-    mat4 DcubeMatrix3 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
-                        translate(mat4(1.0), vec3(1.45f, 0.35f, 0.0f)) *
-                        rotate(mat4(1.0), radians(90.0f), vec3(0.0f, 0.0f, 1.0f)) *
-                        scale(mat4(1.0), scaled2);
-    setWorldMatrix(shaderProgram, DcubeMatrix3);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    // //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-    mat4 DcubeMatrix4 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
-                        translate(mat4(1.0), vec3(2.0f, 1.0f, 0.0f)) *
-                        scale(mat4(1.0), scaled3);
-    setWorldMatrix(shaderProgram, DcubeMatrix4);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-    //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
-
-    worldTranslation = vec3(3.0f, 0.5f, 1.7);
     draw_racket(shaderProgram, worldMatrixLocation, worldTranslation, degrees, worldRotation, worldScale, polygons, activeVAO, activeVertices);
 }
 //*************************************************************************************************************
@@ -728,29 +576,4 @@ void draw_arm(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslati
     glDrawElements(polygons, activeVertices, GL_UNSIGNED_INT, 0);
 }
 //*************************************************************************************************************
-// Drawing the tennis ball --------------------------------------------------------
-void draw_ball(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float polygons, GLuint activeVAO, int activeVertices)
-{
-    // Compile and link shaders
-    glUseProgram(shaderProgram);
-    // glBindVertexArray(activeVAO);
-
-    // int sphereAO = createTextured_Sphere_VertexArrayObject();
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(sphere), sphere, GL_STATIC_DRAW);
-
-    int sphereAO = createTexturedCubeVertexArrayObject();
-    glBufferData(GL_ARRAY_BUFFER, sizeof(greenCube), greenCube, GL_STATIC_DRAW);
-
-    glBindVertexArray(sphereAO);
-    
-    mat4 ballMatrix = translate(mat4(1.0), worldTranslation) *
-                      translate(mat4(1.0), vec3(0.0f, 3.0f, 0.0f)) *
-                      scale(mat4(1.0), vec3(0.2f, 0.2f, 0.2f));
-    setWorldMatrix(shaderProgram, ballMatrix);
-    // glDrawArrays(polygons, 0, (sizeof(sphere) / 3));
-    glDrawArrays(polygons, 0, 36);
-    glDrawElements(polygons, 100, GL_UNSIGNED_INT, 0);
-    glDrawElements(polygons, activeVertices, GL_UNSIGNED_INT, 0);
-}
-
 #endif /* MODELOBJECTS_H */

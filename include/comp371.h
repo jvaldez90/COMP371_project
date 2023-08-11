@@ -35,16 +35,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "vertexData.h"
-#include "sphereData.h"
 
 #include "vertexShader.h"
 #include "fragmentShader.h"
 
 #include "textureVertShader.h"
 #include "textureFragShader.h"
-
-// #include "lightFrag.h"
-// #include "lightVert.h"
 
 using namespace glm;
 using namespace std;
