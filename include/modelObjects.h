@@ -346,7 +346,7 @@ void draw_V(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation
 
     vec3 worldScaled = vec3(0.25f, 0.25f, 0.25f);
 
-    mat4 VcubeMatrix1 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
+    mat4 VcubeMatrix1 = translate(mat4(1.0), worldTranslation) /* rotate(mat4(1.0), radians(degrees), worldRotation)*/ * scale(mat4(1.0), worldScaled) *
                         translate(mat4(1.0), vec3(-1.0f, 1.0f, 0.0f)) *
                         rotate(mat4(1.0), radians(30.0f), vec3(0.0f, 0.0f, 1.0f)) *
                         scale(mat4(1.0), scaled);
@@ -354,7 +354,7 @@ void draw_V(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation
     glDrawArrays(GL_TRIANGLES, 0, 36);
     // //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
 
-    mat4 VcubeMatrix2 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
+    mat4 VcubeMatrix2 = translate(mat4(1.0), worldTranslation) /* rotate(mat4(1.0), radians(degrees), worldRotation)*/ * scale(mat4(1.0), worldScaled) *
                         translate(mat4(1.0), vec3(-0.35f, 1.0f, 0.0f)) *
                         rotate(mat4(1.0), radians(-30.0f), vec3(0.0f, 0.0f, 1.0f)) *
                         scale(mat4(1.0), scaled);
@@ -362,7 +362,7 @@ void draw_V(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation
     glDrawArrays(GL_TRIANGLES, 0, 36);
     // glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
 
-    // worldTranslation = vec3(-3.5f, 0.5f, -1.7);
+    worldTranslation = vec3(-3.5f, 0.5f, -1.7);
 
     draw_racket(shaderProgram, worldMatrixLocation, worldTranslation, degrees, worldRotation, worldScale, polygons, activeVAO, activeVertices);
 }
