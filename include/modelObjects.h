@@ -25,7 +25,6 @@
 #include "textureVertShader.h"
 #include "textureFragShader.h"
 
-
 using namespace glm;
 using namespace std;
 
@@ -45,7 +44,9 @@ void draw_V(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation
 void draw_racket(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, float polygons, GLuint activeVAO, int activeVertices);
 void draw_arm(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 worldRotation, vec3 worldScale, float polygons, GLuint activeVAO, int activeVertices);
 
-/********************************************************************************************************/
+void draw_crowd(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 rotation);
+void draw_scoreboard(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation);
+
 /********************************************************************************************************/
 /*************************
  * DRAWING MODEL OBJECTS *
@@ -346,7 +347,7 @@ void draw_V(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation
 
     vec3 worldScaled = vec3(0.25f, 0.25f, 0.25f);
 
-    mat4 VcubeMatrix1 = translate(mat4(1.0), worldTranslation) /* rotate(mat4(1.0), radians(degrees), worldRotation)*/ * scale(mat4(1.0), worldScaled) *
+    mat4 VcubeMatrix1 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
                         translate(mat4(1.0), vec3(-1.0f, 1.0f, 0.0f)) *
                         rotate(mat4(1.0), radians(30.0f), vec3(0.0f, 0.0f, 1.0f)) *
                         scale(mat4(1.0), scaled);
@@ -354,7 +355,7 @@ void draw_V(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation
     glDrawArrays(GL_TRIANGLES, 0, 36);
     // //glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
 
-    mat4 VcubeMatrix2 = translate(mat4(1.0), worldTranslation) /* rotate(mat4(1.0), radians(degrees), worldRotation)*/ * scale(mat4(1.0), worldScaled) *
+    mat4 VcubeMatrix2 = translate(mat4(1.0), worldTranslation) * rotate(mat4(1.0), radians(degrees), worldRotation) * scale(mat4(1.0), worldScaled) *
                         translate(mat4(1.0), vec3(-0.35f, 1.0f, 0.0f)) *
                         rotate(mat4(1.0), radians(-30.0f), vec3(0.0f, 0.0f, 1.0f)) *
                         scale(mat4(1.0), scaled);
@@ -576,4 +577,46 @@ void draw_arm(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslati
     glDrawElements(polygons, activeVertices, GL_UNSIGNED_INT, 0);
 }
 //*************************************************************************************************************
+// Set up for a crowd into environment
+void draw_crowd(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation, float degrees, vec3 rotation)
+{
+    // Note: Single Court Ground Base is 25 units by 12 units
+    // Compile and link shaders
+    glUseProgram(shaderProgram);
+
+    int cubeAO = createTexturedCubeVertexArrayObject();
+    glBufferData(GL_ARRAY_BUFFER, sizeof(whiteCube), whiteCube, GL_STATIC_DRAW);
+    glBindVertexArray(cubeAO);
+
+    // Drawing the crowd stands in the positive x-plane
+    mat4 crowd = translate(mat4(1.0), worldTranslation) *
+                      translate(mat4(1.0), vec3(0.0f, 2.0f, 0.0f)) *
+                      rotate(mat4(1.0), radians(degrees), rotation) *
+                      rotate(mat4(1.0), radians(-240.0f), vec3(1.0f, 0.0f, 0.0f)) *
+                      scale(mat4(1.0), vec3(8.0, 8.0, 0.05f));
+    setWorldMatrix(shaderProgram, crowd);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+//*************************************************************************************************************
+// Drawing a scoreboard
+void draw_scoreboard(int shaderProgram, GLuint worldMatrixLocation, vec3 worldTranslation){
+    // Compile and link shaders
+    glUseProgram(shaderProgram);
+
+    int cubeAO = createTexturedCubeVertexArrayObject();
+    glBufferData(GL_ARRAY_BUFFER, sizeof(blackCube), blackCube, GL_STATIC_DRAW);
+    glBindVertexArray(cubeAO);
+
+    // Drawing the crowd stands in the positive x-plane
+    mat4 scoreboard = translate(mat4(1.0), worldTranslation) *
+                      rotate(mat4(1.0), radians(270.0f), vec3(0.0f, 1.0f, 0.0f)) * 
+                      rotate(mat4(1.0), radians(180.0f), vec3(1.0f, 0.0f, 0.0f)) * 
+                      scale(mat4(1.0), vec3(2.0f, 1.0f, 0.05f));
+    setWorldMatrix(shaderProgram, scoreboard);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+
 #endif /* MODELOBJECTS_H */

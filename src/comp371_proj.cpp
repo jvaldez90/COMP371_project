@@ -122,9 +122,11 @@ int main(int argc, char *argv[])
 
     // Load Textures
     GLuint ballTextureID = loadTexture("assets/textures/ball.jpg");
-    GLuint clayTextureID = loadTexture("assets/textures/clay.jpg");
+    GLuint clayTextureID = loadTexture("assets/textures/clay.jpeg");
     GLuint courtTextureID = loadTexture("assets/textures/court.jpg");
     GLuint glossTextureID = loadTexture("assets/textures/gloss.jpg");
+    GLuint crowdTextureID = loadTexture("assets/textures/crowd.jpg");
+    GLuint scoreboardTextureID = loadTexture("assets/textures/scoreboard.jpg");
 
     // Setup models
     string cubePath = "assets/models/cube.obj";
@@ -327,15 +329,25 @@ int main(int argc, char *argv[])
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, glossTextureID);
 
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D, crowdTextureID);
+
+        glActiveTexture(GL_TEXTURE5);
+        glBindTexture(GL_TEXTURE_2D, scoreboardTextureID);
+
         GLuint textureLocation = glGetUniformLocation(texturedShaderProgram, "textureSampler");
         GLuint textureLocation2 = glGetUniformLocation(texturedShaderProgram, "textureSampler2");
         GLuint textureLocation3 = glGetUniformLocation(texturedShaderProgram, "textureSampler3");
         GLuint textureLocation4 = glGetUniformLocation(texturedShaderProgram, "textureSampler4");
+        GLuint textureLocation5 = glGetUniformLocation(texturedShaderProgram, "textureSampler5");
+        GLuint textureLocation6 = glGetUniformLocation(texturedShaderProgram, "textureSampler6");
 
         glUniform1i(textureLocation, 0); // Set our Texture sampler to user Texture Unit 0
         glUniform1i(textureLocation2, 1);
         glUniform1i(textureLocation3, 2);
         glUniform1i(textureLocation4, 3);
+        glUniform1i(textureLocation5, 4);
+        glUniform1i(textureLocation6, 5);
 
         // Draw ground
         mat4 groundWorldMatrix = translate(mat4(1.0), vec3(0.0f, 0.0f, 0.0f)) * scale(mat4(1.0), vec3(0.5f, 0.5f, 0.5f));
@@ -359,13 +371,47 @@ int main(int argc, char *argv[])
             { // World Environment Set up
                 glBindTexture(GL_TEXTURE_2D, clayTextureID);
                 draw_ground(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
+                draw_ground(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, -12.0f)); // For court on the in the negative z-plane
+                draw_ground(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 12.0f));  // For court on the in the positive z-plane
+
                 glBindTexture(GL_TEXTURE_2D, courtTextureID);
                 draw_court(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
+                draw_court(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, -12.0f)); // For court on the in the negative z-plane
+                draw_court(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 12.0f));  // For court on the in the positive z-plane
+
+                glBindTexture(GL_TEXTURE_2D, crowdTextureID);
+                // Drawing crowd in positive x-plane
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(16.0f, 0.0f, -8.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(16.0f, 0.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(16.0f, 0.0f, 8.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+
+                // Drawing crowd in the negative x-plane
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(-16.0f, 0.0f, -8.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(-16.0f, 0.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(-16.0f, 0.0f, 8.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+
+                // Drawing crowd in the negative z-plane
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(-8.0f, 0.0f, -21.5f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, -21.5f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(8.0f, 0.0f, -21.5f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+
+                // Drawing crowd in he positive z-plane
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(-8.0f, 0.0f, 21.5f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 21.5f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+                draw_crowd(texturedShaderProgram, worldMatrixLocation, vec3(8.0f, 0.0f, 21.5f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+
+                glBindTexture(GL_TEXTURE_2D, scoreboardTextureID);
+                draw_scoreboard(texturedShaderProgram, worldMatrixLocation, vec3(12.0f, 0.5f, -12.0f));
+                draw_scoreboard(texturedShaderProgram, worldMatrixLocation, vec3(12.0f, 0.5f, 0.0f));
+                draw_scoreboard(texturedShaderProgram, worldMatrixLocation, vec3(12.0f, 0.5f, 12.0f));
             }
 
             glBindTexture(GL_TEXTURE_2D, glossTextureID);
             draw_net(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), activeVAO, activeVertices);
-            draw_V(texturedShaderProgram, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
+            draw_net(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, -12.0f), activeVAO, activeVertices); // For court on the in the negative z-plane
+            draw_net(texturedShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 12.0f), activeVAO, activeVertices);  // For court on the in the positive z-plane
+
+            // draw_V(texturedShaderProgram, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
 
             // is_textureOn = false;
         }
@@ -392,7 +438,7 @@ int main(int argc, char *argv[])
                 {
                     draw_net(shaderShadow, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), activeVAO, activeVertices);
 
-                    draw_V(shaderShadow, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
+                    // draw_V(shaderShadow, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
 
                     // glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
                 }
@@ -422,10 +468,9 @@ int main(int argc, char *argv[])
                 glBindVertexArray(activeVAO);
                 // Draw geometry
                 {
-                    // draw_light(shaderShadow, worldMatrixLocation, vec3(0.0f, 20.f, 0.0f), activeVAO, activeVertices);
                     draw_net(shaderScene, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), activeVAO, activeVertices);
 
-                    draw_V(shaderScene, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
+                    // draw_V(shaderScene, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
 
                     // glDrawElements(GL_TRIANGLES, activeVertices, GL_UNSIGNED_INT, 0);
                 }
@@ -443,11 +488,37 @@ int main(int argc, char *argv[])
             draw_court(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
             draw_net(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f), activeVAO, activeVertices);
             draw_courtLines(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 0.0f));
+
+            // Drawing crowd in positive x-plane
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(16.0f, 0.0f, -8.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(16.0f, 0.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(16.0f, 0.0f, 8.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            // Drawing crowd in the negative x-plane
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(-16.0f, 0.0f, -8.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(-16.0f, 0.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(-16.0f, 0.0f, 8.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            // Drawing crowd in the negative z-plane
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(-8.0f, 0.0f, -21.5f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, -21.5f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(8.0f, 0.0f, -21.5f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            // Drawing crowd in he positive z-plane
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(-8.0f, 0.0f, 21.5f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, 21.5f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(colorShaderProgram, worldMatrixLocation, vec3(8.0f, 0.0f, 21.5f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            glBindTexture(GL_TEXTURE_2D, scoreboardTextureID);
+            draw_scoreboard(colorShaderProgram, worldMatrixLocation, vec3(12.0f, 0.5f, -12.0f));
+            draw_scoreboard(colorShaderProgram, worldMatrixLocation, vec3(12.0f, 0.5f, 0.0f));
+            draw_scoreboard(colorShaderProgram, worldMatrixLocation, vec3(12.0f, 0.5f, 12.0f));
         }
 
-        draw_V(colorShaderProgram, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
+        // draw_V(colorShaderProgram, worldMatrixLocation, vec3(-3.0f, 2.5f, -1.7f), degrees, worldRotation, worldScale, activeVAO, activeVertices);
 
         /* DRAWING AN ENVIRONMENT into scene */
+
         // Draw an empty court on the in the negative z-plane
         draw_ground(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, -12.0f));
         draw_court(colorShaderProgram, worldMatrixLocation, vec3(0.0f, 0.0f, -12.0f));

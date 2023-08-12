@@ -25,6 +25,8 @@ const char *getTexturedFragmentShaderSource()
            "uniform sampler2D textureSampler2;"
            "uniform sampler2D textureSampler3;"
            "uniform sampler2D textureSampler4;"
+           "uniform sampler2D textureSampler5;"
+           "uniform sampler2D textureSampler6;"
            ""
            "out vec4 FragColor;"
            "void main()"
@@ -33,7 +35,9 @@ const char *getTexturedFragmentShaderSource()
            "   vec4 textureColor2 = texture( textureSampler2, vertexUV );"
            "   vec4 textureColor3 = texture( textureSampler3, vertexUV );"
            "   vec4 textureColor4 = texture( textureSampler4, vertexUV );"
-           "   FragColor = textureColor4;"
+           "   vec4 textureColor5 = texture( textureSampler5, vertexUV );"
+           "   vec4 textureColor6 = texture( textureSampler6, vertexUV );"
+           "   FragColor = textureColor6;"
            "}";
 }
 
