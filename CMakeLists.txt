@@ -38,4 +38,3 @@ list(APPEND BIN ${EXEC})
 # install files to install location
 install(TARGETS ${BIN} DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(DIRECTORY ${ASSETS} DESTINATION ${CMAKE_INSTALL_PREFIX})
-
