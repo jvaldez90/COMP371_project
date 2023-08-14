@@ -1,6 +1,19 @@
-// COMP 371 - Project (Summer 2023)
-// Name - Cristian Tesa
-// Student ID - 40157750
+/*
+ * @file comp371_proj.cpp
+ *
+ * CONCORDIA UNIVERSITY
+ * COMP 371: COMPUTER GRAPHICS
+ * Section CC
+ * Professor: Kaustubha Mendhurwar
+ *
+ * FINAL PROJECT
+ * DUE DATE: MONDAY, AUGUST 14, 2023
+ * 
+ * COMP 371 - Project (Summer 2023)
+ * Name - Cristian Tesa
+ * Student ID - 40157750
+ */
+
 
 #include <cstdlib>                        // needed for rand()
 #include <iostream>
