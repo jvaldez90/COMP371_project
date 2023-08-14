@@ -33,6 +33,9 @@
 using namespace glm;
 using namespace std;
 
+// Struct representing the structure of the object data.
+// Here we store the position, normal vector and uv coordinates information.
+// It is convenient to use a class or struct to layout the data.
 struct TexturedColoredVertex
 {
     TexturedColoredVertex(vec3 _position, vec3 _color, vec2 _uv)
@@ -63,592 +66,57 @@ vec3 colors[] = {
     vec3(0.62f, 0.35f, 0.31f)  // [10] BROWN Cube
 
 };
-// Vertices for a 3D Cube
-vec3 vertexCoord[] = {
-    vec3(-0.5f, -0.5f, -0.5f), // [0] Bottom far left
-    vec3(-0.5f, -0.5f, 0.5f),  // [1] Bottom near left
-    vec3(0.5f, -0.5f, 0.5f),   // [2] Bottom near right
-    vec3(0.5f, -0.5f, -0.5f),  // [3] Bottom far right
-
-    vec3(-0.5f, 0.5f, -0.5f), // [4] Top far left
-    vec3(-0.5f, 0.5f, 0.5f),  // [5] Top near left
-    vec3(0.5f, 0.5f, 0.5f),   // [6] Top near right
-    vec3(0.5f, 0.5f, -0.5f)   // [7] Top far right
-};
-// Texture Coordinates for mapping textures
-vec2 textureCoord[] = {
-    vec2(0.0f, 0.0f), // [0] bottom left
-    vec2(0.0f, 1.0f), // [1] bottom right
-    vec2(1.0f, 1.0f), // [2] top right
-    vec2(1.0f, 0.0f)  // [3] top eft
-};
-vec3 normal[] = {
-    vec3(1.0f, 0.0f, 0.0f),  // [0] Right
-    vec3(-1.0f, 0.0f, 0.0f), // [1] Left
-    vec3(0.0f, 1.0f, 0.0f),  // [2] Top
-    vec3(0.0f, -1.0f, 0.0f), // [3] Bottom
-    vec3(0.0f, 0.0f, 1.0f),  // [4] Front
-    vec3(0.0f, 0.0f, -1.0f)  // [5] Back
-};
-
-// WHITE CUBE ------------------------------------------
-const TexturedColoredVertex whiteCube[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[1], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[1], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[1], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[1], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[1], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[1], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[1], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[1], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[1], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[1], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[1], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[1], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[1], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[1], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[1], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[1], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[1], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[1], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[1], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[1], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[1], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[1], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[1], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[1], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[1], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[1], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[1], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[1], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[1], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[1], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[1], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[1], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[1], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[1], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[1], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[1], textureCoord[1])};
-
-// RED CUBE -------------------------------------------
-const TexturedColoredVertex redCube[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[2], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[2], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[2], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[2], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[2], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[2], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[2], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[2], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[2], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[2], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[2], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[2], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[2], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[2], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[2], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[2], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[2], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[2], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[2], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[2], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[2], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[2], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[2], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[2], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[2], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[2], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[2], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[2], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[2], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[2], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[2], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[2], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[2], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[2], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[2], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[2], textureCoord[1])};
-
-// GREEN CUBE ---------------------------------------
-const TexturedColoredVertex greenCube[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[3], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[3], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[3], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[3], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[3], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[3], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[3], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[3], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[3], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[3], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[3], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[3], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[3], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[3], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[3], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[3], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[3], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[3], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[3], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[3], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[3], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[3], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[3], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[3], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[3], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[3], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[3], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[3], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[3], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[3], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[3], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[3], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[3], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[3], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[3], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[3], textureCoord[1])};
-
-// BLUE CUBE ------------------------------------------
-const TexturedColoredVertex blueCube[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[4], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[4], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[4], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[4], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[4], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[4], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[4], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[4], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[4], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[4], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[4], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[4], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[4], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[4], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[4], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[4], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[4], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[4], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[4], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[4], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[4], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[4], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[4], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[4], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[4], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[4], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[4], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[4], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[4], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[4], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[4], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[4], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[4], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[4], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[4], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[4], textureCoord[1])};
-
-// BLACK CUBE ------------------------------------------
-const TexturedColoredVertex blackCube[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[5], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[5], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[5], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[5], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[5], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[5], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[5], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[5], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[5], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[5], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[5], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[5], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[5], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[5], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[5], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[5], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[5], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[5], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[5], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[5], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[5], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[5], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[5], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[5], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[5], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[5], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[5], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[5], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[5], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[5], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[5], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[5], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[5], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[5], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[5], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[5], textureCoord[1])};
-// RACKET RED CUBE ----------------------------------
-const TexturedColoredVertex racketRed[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[6], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[6], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[6], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[6], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[6], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[6], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[6], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[6], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[6], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[6], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[6], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[6], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[6], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[6], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[6], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[6], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[6], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[6], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[6], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[6], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[6], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[6], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[6], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[6], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[6], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[6], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[6], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[6], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[6], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[6], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[6], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[6], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[6], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[6], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[6], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[6], textureCoord[1])};
-
-// RACKET GRAY CUBE ------------------------------------
-const TexturedColoredVertex racketGray[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[7], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[7], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[7], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[7], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[7], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[7], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[7], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[7], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[7], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[7], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[7], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[7], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[7], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[7], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[7], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[7], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[7], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[7], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[7], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[7], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[7], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[7], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[7], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[7], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[7], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[7], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[7], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[7], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[7], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[7], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[7], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[7], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[7], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[7], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[7], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[7], textureCoord[1])};
-
-// ARM CUBE ----------------------------------------------
-const TexturedColoredVertex armCube[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[8], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[8], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[8], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[8], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[8], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[8], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[8], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[8], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[8], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[8], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[8], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[8], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[8], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[8], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[8], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[8], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[8], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[8], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[8], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[8], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[8], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[8], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[8], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[8], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[8], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[8], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[8], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[8], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[8], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[8], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[8], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[8], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[8], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[8], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[8], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[8], textureCoord[1])};
-
-const TexturedColoredVertex courtGround[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[9], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[9], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[9], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[9], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[9], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[9], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[9], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[9], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[9], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[9], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[9], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[9], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[9], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[9], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[9], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[9], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[9], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[9], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[9], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[9], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[9], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[9], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[9], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[9], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[9], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[9], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[9], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[9], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[9], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[9], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[9], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[9], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[9], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[9], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[9], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[9], textureCoord[1])};
-
-const TexturedColoredVertex brownCube[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[10], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[10], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[10], textureCoord[2]),
-
-    TexturedColoredVertex(vertexCoord[0], colors[10], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[10], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[10], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[10], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[10], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[10], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[7], colors[10], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[10], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[10], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[10], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[10], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[10], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[2], colors[10], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[10], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[10], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[5], colors[10], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[10], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[10], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[10], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[10], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[10], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[10], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[10], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[10], textureCoord[3]),
-
-    TexturedColoredVertex(vertexCoord[3], colors[10], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[10], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[10], textureCoord[1]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[10], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[10], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[10], textureCoord[0]),
-
-    TexturedColoredVertex(vertexCoord[6], colors[10], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[10], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[10], textureCoord[1])};
-
-// Textured Cube model - Default Yellow cube
+// Textured Cube model:
+// We use an instance of the above defined struct to declare and initialize the textured cube model.
 const TexturedColoredVertex texturedCubeVertexArray[] = {
-    //                          position,     color,   texture coord
-    TexturedColoredVertex(vertexCoord[0], colors[0], textureCoord[0]), // left
-    TexturedColoredVertex(vertexCoord[1], colors[0], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[5], colors[0], textureCoord[2]),
 
-    TexturedColoredVertex(vertexCoord[0], colors[0], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[0], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[0], textureCoord[3]),
+    //                              position,                normal,               texture
+    TexturedColoredVertex(vec3(-0.5f, -0.5f, -0.5f), vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)), // left
+    TexturedColoredVertex(vec3(-0.5f, -0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)),
 
-    TexturedColoredVertex(vertexCoord[7], colors[0], textureCoord[2]), // far
-    TexturedColoredVertex(vertexCoord[0], colors[0], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[4], colors[0], textureCoord[1]),
+    TexturedColoredVertex(vec3(-0.5f, -0.5f, -0.5f), vec3(-1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(-1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, -0.5f), vec3(-1.0f, 0.0f, 0.0f), vec2(1.0f, 0.0f)),
 
-    TexturedColoredVertex(vertexCoord[7], colors[0], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[3], colors[0], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[0], colors[0], textureCoord[0]),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, -0.5f), vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 1.0f)), // far
+    TexturedColoredVertex(vec3(-0.5f, -0.5f, -0.5f), vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, -0.5f), vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 1.0f)),
 
-    TexturedColoredVertex(vertexCoord[2], colors[0], textureCoord[2]), // bottom
-    TexturedColoredVertex(vertexCoord[0], colors[0], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[3], colors[0], textureCoord[3]),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, -0.5f), vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(0.5f, -0.5f, -0.5f), vec3(0.0f, 0.0f, -1.0f), vec2(1.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, -0.5f, -0.5f), vec3(0.0f, 0.0f, -1.0f), vec2(0.0f, 0.0f)),
 
-    TexturedColoredVertex(vertexCoord[2], colors[0], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[1], colors[0], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[0], colors[0], textureCoord[3]),
+    TexturedColoredVertex(vec3(0.5f, -0.5f, 0.5f), vec3(0.0f, -1.0f, 0.0f), vec2(1.0f, 1.0f)), // bottom
+    TexturedColoredVertex(vec3(-0.5f, -0.5f, -0.5f), vec3(0.0f, -1.0f, 0.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, -0.5f, -0.5f), vec3(0.0f, -1.0f, 0.0f), vec2(1.0f, 0.0f)),
 
-    TexturedColoredVertex(vertexCoord[5], colors[0], textureCoord[1]), // near
-    TexturedColoredVertex(vertexCoord[1], colors[0], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[2], colors[0], textureCoord[3]),
+    TexturedColoredVertex(vec3(0.5f, -0.5f, 0.5f), vec3(0.0f, -1.0f, 0.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, -0.5f, 0.5f), vec3(0.0f, -1.0f, 0.0f), vec2(0.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, -0.5f, -0.5f), vec3(0.0f, -1.0f, 0.0f), vec2(0.0f, 0.0f)),
 
-    TexturedColoredVertex(vertexCoord[6], colors[0], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[5], colors[0], textureCoord[1]),
-    TexturedColoredVertex(vertexCoord[2], colors[0], textureCoord[3]),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f)), // near
+    TexturedColoredVertex(vec3(-0.5f, -0.5f, 0.5f), vec3(0.0f, 0.0f, 1.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, -0.5f, 0.5f), vec3(0.0f, 0.0f, 1.0f), vec2(1.0f, 0.0f)),
 
-    TexturedColoredVertex(vertexCoord[6], colors[0], textureCoord[2]), // right
-    TexturedColoredVertex(vertexCoord[3], colors[0], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[7], colors[0], textureCoord[3]),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(0.0f, 0.0f, 1.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(0.0f, 0.0f, 1.0f), vec2(0.0f, 1.0f)),
+    TexturedColoredVertex(vec3(0.5f, -0.5f, 0.5f), vec3(0.0f, 0.0f, 1.0f), vec2(1.0f, 0.0f)),
 
-    TexturedColoredVertex(vertexCoord[3], colors[0], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[6], colors[0], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[2], colors[0], textureCoord[1]),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)), // right
+    TexturedColoredVertex(vec3(0.5f, -0.5f, -0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, -0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(1.0f, 0.0f)),
 
-    TexturedColoredVertex(vertexCoord[6], colors[0], textureCoord[2]), // top
-    TexturedColoredVertex(vertexCoord[7], colors[0], textureCoord[3]),
-    TexturedColoredVertex(vertexCoord[4], colors[0], textureCoord[0]),
+    TexturedColoredVertex(vec3(0.5f, -0.5f, -0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(0.5f, -0.5f, 0.5f), vec3(1.0f, 0.0f, 0.0f), vec2(0.0f, 1.0f)),
 
-    TexturedColoredVertex(vertexCoord[6], colors[0], textureCoord[2]),
-    TexturedColoredVertex(vertexCoord[4], colors[0], textureCoord[0]),
-    TexturedColoredVertex(vertexCoord[5], colors[0], textureCoord[1])};
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f)), // top
+    TexturedColoredVertex(vec3(0.5f, 0.5f, -0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(1.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, -0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f)),
 
-// Sphere object
+    TexturedColoredVertex(vec3(0.5f, 0.5f, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(1.0f, 1.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, -0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 0.0f)),
+    TexturedColoredVertex(vec3(-0.5f, 0.5f, 0.5f), vec3(0.0f, 1.0f, 0.0f), vec2(0.0f, 1.0f))};
 
 #endif /* VERTEXDATA_H */

@@ -36,12 +36,6 @@
 
 #include "vertexData.h"
 
-#include "vertexShader.h"
-#include "fragmentShader.h"
-
-#include "textureVertShader.h"
-#include "textureFragShader.h"
-
 using namespace glm;
 using namespace std;
 
