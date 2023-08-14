@@ -25,18 +25,6 @@ using namespace std;
 // For Changing the rendering of the geometric shapes
 GLenum renderMode = GL_TRIANGLES;
 
-// Declaration of matrices representing the model parts for 2nd racket:
-mat4 lowerArmPart = mat4(1.0f);      // matrix corresponding to the lower hand part
-mat4 lowerArmGroup = mat4(1.0f);     // matrix corresponding to the lower hand group
-mat4 elbowJointPart = mat4(1.0f);    // matrix corresponding to the 1st joint part
-mat4 elbowJointGroup = mat4(1.0f);   // matrix corresponding to the 1st joint group
-mat4 upperArmPart = mat4(1.0f);      // matrix corresponding to the upper hand part
-mat4 upperArmGroup = mat4(1.0f);     // matrix corresponding to the upper hand group
-mat4 wristJointPart = mat4(1.0f);    // matrix corresponding to the 2nd joint part
-mat4 wristJointGroup = mat4(1.0f);   // matrix corresponding to the 2nd joint group
-mat4 tennisRacketPart = mat4(1.0f);  // matrix corresponding to the tennis racket part
-mat4 tennisRacketGroup = mat4(1.0f); // matrix corresponding to the tennis racket group
-
 // OBJECT CREATIONS ---------------------------------------
 void draw_J_racket(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rotateOn, vec3 scaleBy, GLenum renderMode);
 void draw_arm(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rotateOn, vec3 scaleBy, GLenum renderMode);
@@ -188,9 +176,9 @@ void draw_J_racket(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 r
     mat4 handleRacket = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
                         // Line above is for Adjustments in relevance to world model orientation
                         scale(mat4(1.0), scalar) *
-                        translate(mat4(1.0), vec3(1.5f, 3.75f, 0.0f)) *
+                        translate(mat4(1.0), vec3(1.5f, 3.5f, 0.0f)) *
                         rotate(mat4(1.0), radians(0.0f), vec3(0.0f, 0.0f, 1.0f)) *
-                        scale(mat4(1.0), vec3(0.15f, 2.0f, 0.15f));
+                        scale(mat4(1.0), vec3(0.15f, 2.5f, 0.15f));
     SetUniformMat4(shaderProgram, "world_matrix", handleRacket);
     glDrawArrays(renderMode, 0, 36);
 
@@ -209,24 +197,32 @@ void draw_arm(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rotate
     SetUniformVec3(shaderProgram, "object_color", colors[8]); // Set active color Beige for Arm
     vec3 ARM_SCALED = vec3(0.25f, 1.5f, 0.25f);
 
-    // Lower Arm
-    mat4 lowerArmMatrix = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
-                          // Line above is for Adjustments in relevance to world model orientation
-                          scale(mat4(1.0), scalar) *
-                          translate(mat4(1.0), vec3(1.0f, 1.0f, 0.0f)) *
-                          rotate(mat4(1.0), radians(-45.0f), vec3(0.0f, 0.0f, 1.0f)) *
-                          scale(mat4(1.0), ARM_SCALED);
-    SetUniformMat4(shaderProgram, "world_matrix", lowerArmMatrix);
+    // Hand
+    mat4 hand = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
+                // Line above is for Adjustments in relevance to world model orientation
+                scale(mat4(1.0), scalar) *
+                translate(mat4(1.0), vec3(1.5f, 3.0f, 0.0f)) *
+                scale(mat4(1.0), vec3(0.25f, 0.25f, 0.25f));
+    SetUniformMat4(shaderProgram, "world_matrix", hand);
     glDrawArrays(renderMode, 0, 36);
 
-    // Upper Arm
-    mat4 upperArmMatrix = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
-                          // Line above is for Adjustments in relevance to world model orientation
-                          scale(mat4(1.0), scalar) *
-                          translate(mat4(1.0), vec3(1.5f, 2.25f, 0.0f)) *
-                          rotate(mat4(1.0), radians(0.0f), vec3(0.0f, 0.0f, 1.0f)) *
-                          scale(mat4(1.0), ARM_SCALED);
-    SetUniformMat4(shaderProgram, "world_matrix", upperArmMatrix);
+    // Forearm
+    mat4 forearm = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
+                   // Line above is for Adjustments in relevance to world model orientation
+                   scale(mat4(1.0), scalar) *
+                   translate(mat4(1.0), vec3(1.5f, 3.0f, 0.0f)) *
+                   scale(mat4(1.0), vec3(0.25f, 0.25f, 0.25f));
+    SetUniformMat4(shaderProgram, "world_matrix", forearm);
+    glDrawArrays(renderMode, 0, 36);
+
+    // Bicep
+    mat4 bicep = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
+                 // Line above is for Adjustments in relevance to world model orientation
+                 scale(mat4(1.0), scalar) *
+                 translate(mat4(1.0), vec3(-0.6f, 3.53f, 0.0f)) *
+                 rotate(mat4(1.0), radians(-45.0f), vec3(0.0f, 0.0f, 1.0f)) *
+                 scale(mat4(1.0), vec3(1.5f, 0.25f, 0.25f));
+    SetUniformMat4(shaderProgram, "world_matrix", bicep);
     glDrawArrays(renderMode, 0, 36);
 }
 //*************************************************************************************************************
