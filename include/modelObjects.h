@@ -25,26 +25,7 @@ using namespace std;
 // For Changing the rendering of the geometric shapes
 GLenum renderMode = GL_TRIANGLES;
 
-float wristJoint = 0.0f; // For 2nd Racket rotations
-// For 2nd Racket rotations
-float elbowJointX = 0.0f;
-float elbowJointY = 0.0f;
-float elbowJointZ = 0.0f;
-
-// matrices for 2nd Racket oriantations
-mat4 worldRacket2 = mat4(1.0);
-mat4 handPart = mat4(1.0);
-mat4 handGroup = mat4(1.0);
-mat4 wristPart = mat4(1.0);
-mat4 wristGroup = mat4(1.0);
-mat4 forearmPart = mat4(1.0);
-mat4 forearmGroup = mat4(1.0);
-mat4 elbowPart = mat4(1.0);
-mat4 elbowGroup = mat4(1.0);
-mat4 bicepPart = mat4(1.0);
-mat4 bicepGroup = mat4(1.0);
-mat4 raacket2Part = mat4(1.0);
-mat4 raacket2Group = mat4(1.0);
+mat4 racket2Orientation = mat4(1.0);
 
 /***** Racket matrices *****/
 mat4 racketNet = mat4(1.0);
@@ -212,6 +193,7 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
     glDrawArrays(renderMode, 0, 36);
 
     draw_arm(shaderProgram, translateBy, degrees, rotateOn, scaleBy, renderMode);
+    racket2Orientation = racketNet * handleRacket * rightBase * leftBase * middleBase * rightSide * leftSide * middleTop * rightTop * leftTop;
 }
 //*************************************************************************************************************
 // DRAWING the ARM ---------------------------------------------
@@ -233,8 +215,9 @@ void draw_arm(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rotate
     // Forearm
     forearm = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
               // Line above is for Adjustments in relevance to world model orientation
-              translate(mat4(1.0), vec3(1.5f, 3.0f, 0.0f)) *
-              scale(mat4(1.0), vec3(0.25f, 0.25f, 0.25f));
+              translate(mat4(1.0), vec3(0.6f, 3.0f, 0.0f)) *
+              rotate(mat4(1.0), radians(-90.0f), vec3(0.0f, 0.0f, 1.0f)) *
+              scale(mat4(1.0), vec3(0.25f, 1.5f, 0.25f));
     SetUniformMat4(shaderProgram, "world_matrix", forearm);
     glDrawArrays(renderMode, 0, 36);
 
@@ -246,6 +229,8 @@ void draw_arm(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rotate
             scale(mat4(1.0), vec3(1.5f, 0.25f, 0.25f));
     SetUniformMat4(shaderProgram, "world_matrix", bicep);
     glDrawArrays(renderMode, 0, 36);
+
+    racket2Orientation = bicep * forearm * hand;
 }
 //*************************************************************************************************************
 // Set up for a crowd into environment
