@@ -70,6 +70,7 @@ void drawCourt(GLuint shaderProgramCourt, GLuint shaderProgramLines, vec3 scaleB
 
     courtWorldMatrix = translate(mat4(1.0), translateBy) * translate(mat4(1.0), vec3(0.0f, -0.05f, 0.0f)) * scale(mat4(1.0), scaleBy);
 
+    SetUniformVec3(shaderProgramCourt, "object_color", vec3(0.55f, 0.25f, 0.31f)); // updates the color of the court
     SetUniformMat4(shaderProgramCourt, "world_matrix", courtWorldMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -83,7 +84,7 @@ void drawCourt(GLuint shaderProgramCourt, GLuint shaderProgramLines, vec3 scaleB
     scaled_S = vec3(0.94f, 0.02f, 25.5f); // Aspect ratio from 27ft
     scaled_C = vec3(0.94f, 0.02f, 1.88f); // Aspect ratio from 3inches
 
-    SetUniformVec3(shaderProgramCourt, "object_color", vec3(1.0f, 1.0f, 1.0f)); // updates the color of the court lines
+    SetUniformVec3(shaderProgramLines, "object_color", vec3(1.0f, 1.0f, 1.0f)); // updates the color of the court lines
 
     // Lines drawn along the length side:
     lineMatrix = translate(mat4(1.0), translateBy) *
