@@ -458,30 +458,34 @@ unsigned int loadCubemap(vector<string> faces)
     return textureID;
 }
 
-
 // Class representing the movement of the ball during simulation.
 // The idea was inspired from the lab's projectile code (lab 3).
-class BallMovement {
+class BallMovement
+{
 public:
     BallMovement(vec3 position, vec3 velocity, int shaderP, vec3 targetPosition)
-        : mPosition(position), mVelocity(velocity), mTargetPosition(targetPosition) {
+        : mPosition(position), mVelocity(velocity), mTargetPosition(targetPosition)
+    {
         mWorldMatrixLocation = glGetUniformLocation(shaderP, "world_matrix");
     }
-    
-    void Update(float dt) {
+
+    void Update(float dt)
+    {
         mPosition += mVelocity * dt;
-        
-        if (glm::length(mPosition - mTargetPosition) < glm::length(mVelocity) * dt) {
+
+        if (glm::length(mPosition - mTargetPosition) < glm::length(mVelocity) * dt)
+        {
             temp = mPosition;
             mPosition = mTargetPosition;
             mTargetPosition = temp;
-            mVelocity = -mVelocity; // Reverse direction
+            mVelocity = -mVelocity;           // Reverse direction
             swap(mPosition, mTargetPosition); // Swap positions
         }
     }
 
-    void Draw(int texturedSphereVAO, mat4 prevMatrix, GLenum renderMode, int sphereVertexCount) {
-                
+    void Draw(int texturedSphereVAO, mat4 prevMatrix, GLenum renderMode, int sphereVertexCount)
+    {
+
         // Bind geometry:
         glBindVertexArray(texturedSphereVAO);
 
@@ -498,7 +502,6 @@ private:
     vec3 mTargetPosition;
     GLuint mWorldMatrixLocation;
 };
-
 
 int main(int argc, char *argv[])
 {
@@ -709,18 +712,15 @@ int main(int argc, char *argv[])
     double lastMousePosX, lastMousePosY;                      // variables needed to hold the info about the last mouse x and y positions
     glfwGetCursorPos(window, &lastMousePosX, &lastMousePosY); // stores the last mouse x and y positions in the corresponding variables
 
-  
     // Needed to check whether the game simulation was started or not:
     int lastYState = GLFW_RELEASE;
 
-  
     vec3 startPosition(0.0f, -4.0f, 4.0f);
     vec3 targetPosition(0.0f, -4.0f, 24.0f);
     vec3 movementDirection(0.0f, 0.0f, 1.0f);
     const float ballMovementSpeed = 15.0f;
 
     BallMovement ballMovement(startPosition, ballMovementSpeed * movementDirection, shaderProgram, targetPosition);
-
 
     // Entering main loop:
     while (!glfwWindowShouldClose(window))
@@ -807,6 +807,29 @@ int main(int argc, char *argv[])
 
             // Draw tennis pole net:
             drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, -21.5f));
+
+            // Adding a tennis court in the negative z-plane
+            {
+                // Draw a world ground:
+                drawGround(shadowProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 60.0f));
+                // Draw court surface:
+                drawCourt(shadowProgram, shadowProgram, vec3(76.0f, 0.01f, 94.0f), vec3(0.0f, -0.05f, -60.0f));
+                // Draw tennis poles:
+                drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f));
+                // Draw tennis pole net:
+                drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, 81.5f));
+            }
+            // Adding a tennis court in the positive z-plane
+            {
+                // Draw a world ground:
+                drawGround(shadowProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 60.0f));
+                // Draw court surface:
+                drawCourt(shadowProgram, shadowProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 60.0f));
+                // Draw tennis poles:
+                drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f));
+                // Draw tennis pole net:
+                drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, 81.5f));
+            }
 
             // Draw the coordinate system axes:
             coordinateWorldMatrix = mat4(1.0f); // matrix corresponding to the coordinate system axes
@@ -1094,11 +1117,15 @@ int main(int argc, char *argv[])
             glBindTexture(GL_TEXTURE_2D, clayTextureID);
 
             drawGround(textureProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 0.0f));
+            drawGround(textureProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, -60.0f)); // For Tennis court in the negative z-plane
+            drawGround(textureProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 60.0f)); // For Tennis court in the positive z-plane
         }
         else
         {
             SetUniformVec3(shaderProgram, "object_color", vec3(0.4f, 0.46f, 0.23f)); // updates the color of the ground
             drawGround(shaderProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 0.0f));
+            drawGround(shaderProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, -60.0f)); // For Tennis court in the negative z-plane
+            drawGround(shaderProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 60.0f)); // For Tennis court in the positive z-plane
         }
 
         // Draw court surface:
@@ -1119,20 +1146,28 @@ int main(int argc, char *argv[])
             SetUniformVec3(shaderProgram, "object_color", vec3(1.0f, 1.0f, 1.0f)); // updates the color of the court lines
 
             drawCourt(textureProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 0.0f));
+            drawCourt(textureProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, -60.0f)); // For Tennis court int the negative z-plane
+            drawCourt(textureProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 60.0f)); // For Tennis court int the positive z-plane
         }
         else
         {
             SetUniformVec3(shaderProgram, "object_color", vec3(0.55f, 0.25f, 0.31f)); // updates the color of the court
             drawCourt(shaderProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 0.0f));
+            drawCourt(shaderProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, -60.0f)); // For Tennis court int the negative z-plane
+            drawCourt(shaderProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 60.0f)); // For Tennis court int the positive z-plane
         }
 
         // Draw tennis poles:
         SetUniformVec3(shaderProgram, "object_color", vec3(0.25f, 0.27f, 0.2f)); // updates the color of the tennis poles
         drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, -21.5f));
+        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, -81.5f)); // For Tennis court int the negative z-plane
+        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f)); // For Tennis court int the positive z-plane
 
         // Draw tennis pole net:
         SetUniformVec3(shaderProgram, "object_color", vec3(0.7f, 0.74f, 0.98f)); // updates the color of the tennis net
         drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, -21.5f));
+        drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, -81.5f)); // For Tennis court int the negative z-plane
+        drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, 81.5f)); // For Tennis court int the positive z-plane
 
         // Draw the coordinate system axes:
         // Again this can be done using the cube model.
@@ -1683,20 +1718,18 @@ int main(int argc, char *argv[])
         // Bind geometry:
         glBindVertexArray(texturedSphereVAO); // needed since we are no longer drawing cubes, we are now drawing spheres
 
-      
         // Draw the tennis ball:
-      
+
         // Draw proper geometry:
         glUseProgram(shaderProgram);
 
         worldMatrix = lowerHandGroupMatrix * firstJointGroupMatrix * upperHandGroupMatrix * secondJointGroupMatrix * tennisRacketGroupMatrix;
 
-        SetUniformVec3(shaderProgram, "object_color", vec3(0.55, 0.88, 0.65));      // update the color of the tennis ball
+        SetUniformVec3(shaderProgram, "object_color", vec3(0.55, 0.88, 0.65)); // update the color of the tennis ball
         SetUniformMat4(shaderProgram, "world_matrix", worldMatrix);
 
         ballMovement.Update(dt);
         ballMovement.Draw(texturedSphereVAO, worldMatrix, renderMode, sphereVertexCount);
-
 
         // Unbind geometry:
         glBindVertexArray(0);
