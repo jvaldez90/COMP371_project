@@ -8,10 +8,6 @@
  *
  * FINAL PROJECT
  * DUE DATE: MONDAY, AUGUST 14, 2023
- *
- * COMP 371 - Project (Summer 2023)
- * Name - Cristian Tesa
- * Student ID - 40157750
  */
 
 #include <cstdlib> // needed for rand()
