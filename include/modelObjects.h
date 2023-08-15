@@ -121,7 +121,6 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
     // left top
     leftTop = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
               // Line above is for Adjustments in relevance to world model orientation
-              scale(mat4(1.0), scalar) *
               translate(mat4(1.0), vec3(0.95f, TOP_SIDES_HEIGHT, 0.0f)) *
               rotate(mat4(1.0), radians(-65.0f), vec3(0.0f, 0.0f, 1.0f)) *
               scale(mat4(1.0), TOP_SIDES_SCALED);
@@ -131,7 +130,6 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
     // right top
     rightTop = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
                // Line above is for Adjustments in relevance to world model orientation
-               scale(mat4(1.0), scalar) *
                translate(mat4(1.0), vec3(2.05f, TOP_SIDES_HEIGHT, 0.0f)) *
                rotate(mat4(1.0), radians(65.0f), vec3(0.0f, 0.0f, 1.0f)) *
                scale(mat4(1.0), TOP_SIDES_SCALED);
@@ -143,7 +141,6 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
 
     middleTop = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
                 // Line above is for Adjustments in relevance to world model orientation
-                scale(mat4(1.0), scalar) *
                 translate(mat4(1.0), vec3(1.5f, 7.8f, 0.0f)) *
                 rotate(mat4(1.0), radians(90.0f), vec3(0.0f, 0.0f, 1.0f)) *
                 scale(mat4(1.0), vec3(0.17f, 0.4f, 0.17f));
@@ -157,7 +154,6 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
     // left side
     leftSide = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
                // Line above is for Adjustments in relevance to world model orientation
-               scale(mat4(1.0), scalar) *
                translate(mat4(1.0), vec3(0.6f, SIDES_HEIGHT, 0.0f)) *
                scale(mat4(1.0), SIDES_SCALED);
     SetUniformMat4(shaderProgram, "world_matrix", leftSide);
@@ -166,7 +162,6 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
     // right side
     rightSide = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
                 // Line above is for Adjustments in relevance to world model orientation
-                scale(mat4(1.0), scalar) *
                 translate(mat4(1.0), vec3(2.4f, SIDES_HEIGHT, 0.0f)) *
                 scale(mat4(1.0), SIDES_SCALED);
     SetUniformMat4(shaderProgram, "world_matrix", rightSide);
@@ -179,7 +174,7 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
     // middle base
     middleBase = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
                  // Line above is for Adjustments in relevance to world model orientation
-                 scale(mat4(1.0), scalar) * translate(mat4(1.0), vec3(1.5f, 5.15f, 0.0f)) *
+                 translate(mat4(1.0), vec3(1.5f, 5.15f, 0.0f)) *
                  rotate(mat4(1.0), radians(90.0f), vec3(0.0f, 0.0f, 1.0f)) *
                  scale(mat4(1.0), vec3(0.15f, 1.1f, 0.15f));
     SetUniformMat4(shaderProgram, "world_matrix", middleBase);
@@ -190,7 +185,7 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
 
     leftBase = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
                // Line above is for Adjustments in relevance to world model orientation
-               scale(mat4(1.0), scalar) * translate(mat4(1.0), vec3(1.05f, BASE_SIDES_HEIGHT, 0.0f)) *
+               translate(mat4(1.0), vec3(1.05f, BASE_SIDES_HEIGHT, 0.0f)) *
                rotate(mat4(1.0), radians(45.0f), vec3(0.0f, 0.0f, 1.0f)) *
                scale(mat4(1.0), BASE_SIDES_SCALED);
     SetUniformMat4(shaderProgram, "world_matrix", leftBase);
@@ -199,7 +194,7 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
     // right base
     rightBase = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
                 // Line above is for Adjustments in relevance to world model orientation
-                scale(mat4(1.0), scalar) * translate(mat4(1.0), vec3(1.95f, BASE_SIDES_HEIGHT, 0.0f)) *
+                translate(mat4(1.0), vec3(1.95f, BASE_SIDES_HEIGHT, 0.0f)) *
                 rotate(mat4(1.0), radians(-45.0f), vec3(0.0f, 0.0f, 1.0f)) *
                 scale(mat4(1.0), BASE_SIDES_SCALED);
     SetUniformMat4(shaderProgram, "world_matrix", rightBase);
@@ -210,7 +205,6 @@ void draw_racket2(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 ro
 
     handleRacket = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
                    // Line above is for Adjustments in relevance to world model orientation
-                   scale(mat4(1.0), scalar) *
                    translate(mat4(1.0), vec3(1.5f, 3.5f, 0.0f)) *
                    rotate(mat4(1.0), radians(0.0f), vec3(0.0f, 0.0f, 1.0f)) *
                    scale(mat4(1.0), vec3(0.15f, 2.5f, 0.15f));
@@ -226,16 +220,11 @@ void draw_arm(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rotate
     // Compile and link shaders
     glUseProgram(shaderProgram);
 
-    // Create a scalar vector as base reference
-    vec3 scalar = vec3(0.2f, 0.2f, 0.2f);
-
-    SetUniformVec3(shaderProgram, "object_color", colors[8]); // Set active color Beige for Arm
-    vec3 ARM_SCALED = vec3(0.25f, 1.5f, 0.25f);
+    SetUniformVec3(shaderProgram, "object_color", colors[8]); // Set active color Beige for Arms
 
     // Hand
     hand = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
            // Line above is for Adjustments in relevance to world model orientation
-           scale(mat4(1.0), scalar) *
            translate(mat4(1.0), vec3(1.5f, 3.0f, 0.0f)) *
            scale(mat4(1.0), vec3(0.25f, 0.25f, 0.25f));
     SetUniformMat4(shaderProgram, "world_matrix", hand);
@@ -244,7 +233,6 @@ void draw_arm(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rotate
     // Forearm
     forearm = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
               // Line above is for Adjustments in relevance to world model orientation
-              scale(mat4(1.0), scalar) *
               translate(mat4(1.0), vec3(1.5f, 3.0f, 0.0f)) *
               scale(mat4(1.0), vec3(0.25f, 0.25f, 0.25f));
     SetUniformMat4(shaderProgram, "world_matrix", forearm);
@@ -253,7 +241,6 @@ void draw_arm(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rotate
     // Bicep
     bicep = translate(mat4(1.0), translateBy) * rotate(mat4(1.0), radians(degrees), rotateOn) * scale(mat4(1.0), scaleBy) *
             // Line above is for Adjustments in relevance to world model orientation
-            scale(mat4(1.0), scalar) *
             translate(mat4(1.0), vec3(-0.6f, 3.53f, 0.0f)) *
             rotate(mat4(1.0), radians(-45.0f), vec3(0.0f, 0.0f, 1.0f)) *
             scale(mat4(1.0), vec3(1.5f, 0.25f, 0.25f));
