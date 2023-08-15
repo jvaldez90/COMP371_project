@@ -48,7 +48,7 @@ void drawGround(GLuint shaderProgram, vec3 scaleBy, vec3 translateBy)
     vec3 worldTranslation = vec3(1.0f, 1.0f, 1.0f);
     mat4 groundMatrix = mat4(1.0f); // matrix corresponding to the ground surface
 
-    groundMatrix = translate(mat4(1.0), translateBy) * translate(mat4(1.0), vec3(0.0f, -0.06f, 0.0f)) * scale(mat4(1.0), scaleBy);
+    groundMatrix = translate(mat4(1.0), translateBy) * translate(mat4(1.0), vec3(0.0f, -0.07f, 0.0f)) * scale(mat4(1.0), scaleBy);
 
     SetUniformMat4(shaderProgram, "world_matrix", groundMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -68,7 +68,7 @@ void drawCourt(GLuint shaderProgramCourt, GLuint shaderProgramLines, vec3 scaleB
     vec3 scaled_S = vec3(1.0f, 1.0f, 1.0f); // service line scaled (2)
     vec3 scaled_C = vec3(1.0f, 1.0f, 1.0f); // center mark scaled (2)
 
-    courtWorldMatrix = translate(mat4(1.0), translateBy) * translate(mat4(1.0), vec3(0.0f, -0.05f, 0.0f)) *scale(mat4(1.0), scaleBy);
+    courtWorldMatrix = translate(mat4(1.0), translateBy) * translate(mat4(1.0), vec3(0.0f, -0.05f, 0.0f)) * scale(mat4(1.0), scaleBy);
 
     SetUniformMat4(shaderProgramCourt, "world_matrix", courtWorldMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -78,9 +78,9 @@ void drawCourt(GLuint shaderProgramCourt, GLuint shaderProgramLines, vec3 scaleB
     // Use proper shader:
     glUseProgram(shaderProgramLines);
 
-    scaled_L = vec3(76.0f, 0.02f, 0.94f);   // Aspect ratio from 78ft
-    scaled_W = vec3(0.94f, 0.02f, 34.0f);   // Aspect ratio from 36ft
-    scaled_S = vec3(0.94f, 0.02f, 25.5f);   // Aspect ratio from 27ft
+    scaled_L = vec3(76.0f, 0.02f, 0.94f); // Aspect ratio from 78ft
+    scaled_W = vec3(0.94f, 0.02f, 34.0f); // Aspect ratio from 36ft
+    scaled_S = vec3(0.94f, 0.02f, 25.5f); // Aspect ratio from 27ft
     scaled_C = vec3(0.94f, 0.02f, 1.88f); // Aspect ratio from 3inches
 
     SetUniformVec3(shaderProgramCourt, "object_color", vec3(1.0f, 1.0f, 1.0f)); // updates the color of the court lines
@@ -119,7 +119,7 @@ void drawCourt(GLuint shaderProgramCourt, GLuint shaderProgramLines, vec3 scaleB
 
     // Service lines:
     lineMatrix = translate(mat4(1.0), translateBy) *
-                 translate(mat4(1.0), vec3( -20.46f, 0.0f, 0.0f)) * scale(mat4(1.0), scaled_S); // line in the negative x-plane
+                 translate(mat4(1.0), vec3(-20.46f, 0.0f, 0.0f)) * scale(mat4(1.0), scaled_S); // line in the negative x-plane
     SetUniformMat4(shaderProgramLines, "world_matrix", lineMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -144,15 +144,15 @@ void drawPoles(GLuint shaderProgram, vec3 scaleBy, vec3 translateBy)
 {
     mat4 tennisPoleMatrix = mat4(1.0f); // matrix corresponding to the tennis court poles
 
-    tennisPoleMatrix = translate(mat4(1.0), translateBy) * scale(mat4(1.0), scaleBy);
+    tennisPoleMatrix = translate(mat4(1.0), translateBy) * translate(mat4(1.0), vec3(0.0f, 3.3f, -21.5f)) * scale(mat4(1.0), scaleBy);
     SetUniformMat4(shaderProgram, "world_matrix", tennisPoleMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
-    tennisPoleMatrix = translate(mat4(1.0), vec3(translateBy[0], translateBy[1], 0.0f)) * scale(mat4(1.0), scaleBy);
+    tennisPoleMatrix = translate(mat4(1.0), translateBy) * translate(mat4(1.0), vec3(0.0f, 3.3f, 0.0f)) * scale(mat4(1.0), scaleBy);
     SetUniformMat4(shaderProgram, "world_matrix", tennisPoleMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
-    tennisPoleMatrix = translate(mat4(1.0), vec3(translateBy[0], translateBy[1], -translateBy[2])) * scale(mat4(1.0), scaleBy);
+    tennisPoleMatrix = translate(mat4(1.0), translateBy) * translate(mat4(1.0), vec3(0.0f, 3.3f, 21.5f)) * scale(mat4(1.0), scaleBy);
     SetUniformMat4(shaderProgram, "world_matrix", tennisPoleMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }
@@ -162,37 +162,43 @@ void drawPoleNet(GLuint shaderProgram, vec3 scaleBy, vec3 translateBy)
     mat4 tennisNetMatrix = mat4(1.0f); // matrix corresponding to the tennis pole net
 
     // Declaration of floats used in the model drawing process:
-    float netY = 0.0f;
-    float netZ = 0.0f;
+    float netY = -1.0f;
+    float netZ = -20.75;
 
     // scaledNet = vec3(0.2f, 5.0f, 0.2f);
-    netY = (scaleBy[1] / 2);
-    netZ = translateBy[2];
 
-    tennisNetMatrix = translate(mat4(1.0), translateBy) * scale(mat4(1.0), scaleBy);
+    // tennisNetMatrix = translate(mat4(1.0), translateBy) * scale(mat4(1.0), scaleBy);
 
-    for (int i = 0; i < scaleBy[1]; ++i)
-        for (int j = 0; j < -translateBy[2]; ++j)
+    for (int i = 0; i < 5; ++i)
+        for (int j = 0; j < 53; ++j)
         {
-
             // Horizontal lines along the z plane:
-            tennisNetMatrix = translate(mat4(1.0), vec3(0.0f, netY + i * 2.0f, netZ + j * 2.0f)) * rotate(mat4(1.0), radians(90.0f), vec3(0.0f, 1.0f, 0.0f)) * rotate(mat4(1.0), radians(90.0f), vec3(0.0f, 0.0f, 1.0f)) * scale(mat4(1.0), scaleBy);
+            tennisNetMatrix = translate(mat4(1.0), translateBy) *
+                              translate(mat4(1.0), vec3(0.0f, netY + i * 0.8f, netZ + j * 0.8f)) *
+                              rotate(mat4(1.0), radians(90.0f), vec3(1.0f, 0.0f, 0.0f)) *
+                              scale(mat4(1.0), scaleBy);
             SetUniformMat4(shaderProgram, "world_matrix", tennisNetMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 36);
 
-            // Horizontal lines along the x plane:
-            tennisNetMatrix = translate(mat4(1.0), vec3(0.0f, netY + i * 2.0, netZ + j * 2.0f)) * scale(mat4(1.0), scaleBy);
+            // Vertical lines along the z plane:
+            tennisNetMatrix = translate(mat4(1.0), translateBy) *
+                              translate(mat4(1.0), vec3(0.0f, netY + i * 0.8, netZ + j * 0.8f)) *
+                              scale(mat4(1.0), scaleBy);
             SetUniformMat4(shaderProgram, "world_matrix", tennisNetMatrix);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
     // Top of tennis net:
-    tennisNetMatrix = translate(mat4(1.0), vec3(0.0f, 2.5 * scaleBy[1], 0.0f)) * scale(mat4(1.0), vec3(0.2, 0.5f, (2 * (-translateBy[2]))));
+    tennisNetMatrix = translate(mat4(1.0), translateBy) *
+                      translate(mat4(1.0), vec3(0.0f, 3.25f, 0.0f)) *
+                      scale(mat4(1.0), vec3(0.2f, 0.4f, 42.5f));
     SetUniformMat4(shaderProgram, "world_matrix", tennisNetMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
     // Bottom of tennis net:
-    tennisNetMatrix = translate(mat4(1.0), vec3(0.0f, 0.1f, 0.0f)) * scale(mat4(1.0), vec3(0.2, 0.5f, (2 * (-translateBy[2]))));
+    tennisNetMatrix = translate(mat4(1.0), translateBy) *
+                      translate(mat4(1.0), vec3(0.0f, -2.0f, 0.0f)) *
+                      scale(mat4(1.0), vec3(0.2f, 0.2f, 42.5f));
     SetUniformMat4(shaderProgram, "world_matrix", tennisNetMatrix);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }

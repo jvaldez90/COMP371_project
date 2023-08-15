@@ -676,7 +676,7 @@ int main(int argc, char *argv[])
     // This program uses the perspective view to display all the objects.
     mat4 projectionMatrix = perspective(radians(fov),      // field of view in degrees
                                         (800.0f / 600.0f), // aspect ratio
-                                        0.01f, 180.0f);    // near and far (near > 0)
+                                        0.01f, 1000.0f);    // near and far (near > 0)
 
     // Set projection matrix:
     SetUniformMat4(shaderProgram, "projection_matrix", projectionMatrix);
@@ -803,10 +803,10 @@ int main(int argc, char *argv[])
             drawCourt(shadowProgram, shadowProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 0.0f));
 
             // Draw tennis poles:
-            drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, -21.5f));
+            drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 0.0f, 0.0f));
 
             // Draw tennis pole net:
-            drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, -21.5f));
+            drawPoleNet(shadowProgram, vec3(0.1f, 2.25f, 0.1f), vec3(0.0f, 3.3f, 0.0f));
 
             // Adding a scoreboard to center court
             draw_scoreboard(shadowProgram, vec3(55.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
@@ -818,9 +818,9 @@ int main(int argc, char *argv[])
                 // Draw court surface:
                 drawCourt(shadowProgram, shadowProgram, vec3(76.0f, 0.01f, 94.0f), vec3(0.0f, -0.05f, -60.0f));
                 // Draw tennis poles:
-                drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f));
+                drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 0.0f, -60.0f));
                 // Draw tennis pole net:
-                drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, 81.5f));
+                drawPoleNet(shadowProgram, vec3(0.1f, 2.25f, 0.1f), vec3(0.0f, 3.3f, -60.0f));
                 // Adding a scoreboard to negative z-court
                 draw_scoreboard(shadowProgram, vec3(55.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
             }
@@ -831,9 +831,9 @@ int main(int argc, char *argv[])
                 // Draw court surface:
                 drawCourt(shadowProgram, shadowProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 60.0f));
                 // Draw tennis poles:
-                drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f));
+                drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 0.0f, -60.0f));
                 // Draw tennis pole net:
-                drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, 81.5f));
+                drawPoleNet(shadowProgram, vec3(0.1f, 2.25f, 0.1f), vec3(0.0f, 3.3f, -60.0f));
                 // Adding a scoreboard to positive z-court
                 draw_scoreboard(shadowProgram, vec3(55.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
             }
@@ -1193,15 +1193,15 @@ int main(int argc, char *argv[])
 
         // Draw tennis poles:
         SetUniformVec3(shaderProgram, "object_color", vec3(0.25f, 0.27f, 0.2f)); // updates the color of the tennis poles
-        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, -21.5f));
-        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, -81.5f)); // For Tennis court int the negative z-plane
-        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f));  // For Tennis court int the positive z-plane
+        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 0.0f, 0.0f));
+        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 0.0f, -60.0f)); // For Tennis court int the negative z-plane
+        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 0.0f, 60.0f));  // For Tennis court int the positive z-plane
 
         // Draw tennis pole net:
         SetUniformVec3(shaderProgram, "object_color", vec3(0.7f, 0.74f, 0.98f)); // updates the color of the tennis net
-        drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, -21.5f));
-        drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, -81.5f)); // For Tennis court int the negative z-plane
-        drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, 81.5f));  // For Tennis court int the positive z-plane
+        drawPoleNet(shaderProgram, vec3(0.1f, 2.25f, 0.1f), vec3(0.0f, 3.3f, 0.0f));
+        drawPoleNet(shaderProgram, vec3(0.1f, 2.25f, 0.1f), vec3(0.0f, 3.3f, -60.0f)); // For Tennis court int the negative z-plane
+        drawPoleNet(shaderProgram, vec3(0.1f, 2.25f, 0.1f), vec3(0.0f, 3.3f, 60.0f));  // For Tennis court int the positive z-plane
 
         // Draw crowd:
         if (textureEnable)
@@ -2105,7 +2105,7 @@ int main(int argc, char *argv[])
             fov -= dy * 0.1; // decrease the fov by 0.5
 
             // Update the projection matrix after zooming in or out.
-            mat4 projectionMatrix = perspective(radians(fov), (800.0f / 600.0f), 0.01f, 100.0f);
+            mat4 projectionMatrix = perspective(radians(fov), (800.0f / 600.0f), 0.01f, 1000.0f);
             SetUniformMat4(shaderProgram, "projection_matrix", projectionMatrix);
             SetUniformMat4(lightProgram, "projection_matrix", projectionMatrix);
             SetUniformMat4(textureProgram, "projection_matrix", projectionMatrix);
