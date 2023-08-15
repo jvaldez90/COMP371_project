@@ -579,6 +579,11 @@ int main(int argc, char* argv[]) {
     // Rendering mode of the model:
     GLenum renderMode = GL_TRIANGLES;
 
+    // Global Variables for 2nd Racket transformations
+    vec3 racket2Translation = vec3(2.0f, 1.0f, 0.0f);
+    float degrees = 0.0f;
+    vec3 racket2Rotation = vec3(0.0f, 1.0f, 0.0f);
+    vec3 racket2Scale = vec3(2.0f, 2.0f, 2.0f);
 
     // Keep track whether a key on the keyboard is pressed or not:
     bool isSpacePressed = false;
@@ -727,8 +732,7 @@ int main(int argc, char* argv[]) {
         mat4 ballPartMatrix = mat4(1.0f);		        // matrix corresponding to the tennis ball part
         mat4 ballGroupMatrix = mat4(1.0f);		        // matrix corresponding to the tennis group group
         mat4 worldMatrix = mat4(1.0f);
-
-
+        
         // Shadow rendering:
         // Shadow rendering has two parts:
         // 1) Render shadow map:
@@ -1013,7 +1017,8 @@ int main(int argc, char* argv[]) {
 
                 glDrawArrays(renderMode, 0, 36);        // 36 vertices, starting at index 0
             }
-
+            // Draw the 2nd racket
+            draw_racket2(shadowProgram, racket2Translation, degrees, racket2Rotation, vec3(2.0f, 2.0f, 2.0f), renderMode);
 
             // Bind geometry:
             glBindVertexArray(texturedSphereVAO);                   // needed since we are no longer drawing cubes, we are now drawing spheres
@@ -1031,6 +1036,8 @@ int main(int argc, char* argv[]) {
             SetUniformMat4(shadowProgram, "world_matrix", worldMatrix);
 
             glDrawElements(renderMode, sphereVertexCount, GL_UNSIGNED_INT, 0);
+
+
         }
 
         // Unbind geometry:
@@ -1665,6 +1672,9 @@ int main(int argc, char* argv[]) {
             glDrawArrays(renderMode, 0, 36); 						    			                        // 36 vertices, starting at index 0
         }
 
+        // Draw the 2nd racket
+        draw_racket2(shaderProgram, racket2Translation, degrees, racket2Rotation, vec3(2.0f, 2.0f, 2.0f), renderMode);
+        
 
         // Bind geometry:
         glBindVertexArray(texturedSphereVAO);                                                                           // needed since we are no longer drawing cubes, we are now drawing spheres
@@ -1706,7 +1716,6 @@ int main(int argc, char* argv[]) {
         }
 
         glDrawElements(renderMode, sphereVertexCount, GL_UNSIGNED_INT, 0);
-
 
         // Unbind geometry:
         glBindVertexArray(0);
@@ -1865,7 +1874,70 @@ int main(int argc, char* argv[]) {
             is8Pressed = true;				                                                                            // activates the code availabe only when the '8' key is pressed
             r2ndJointZ += 1.0f;				                                                                            // increase the rotation angle r2ndJointZ by 1.0f degree
         }
+        /************** KEYBOARD Input Rotations for 2nd Racket ******************
+         * COMMA | PERIOD | SEMICOLON | SLASH | LEFT_BRACKET | APOSTROPHE | 
+         * RIGHT_BRACKET | BACKSLASH | MINUS | EQUAL BUTTONS
+         ***********************************************************************/
+        if (glfwGetKey(window, GLFW_KEY_COMMA) == GLFW_PRESS)        
+            racket2Translation.x += 0.1;    // POSTIVE TRANSLATION of object along the X-AXIS       
+        if (glfwGetKey(window, GLFW_KEY_PERIOD) == GLFW_PRESS)        
+           racket2Translation.x -= 0.1;     // NEGATIVE TRANSLATION of object along the X-AXIS        
+        if (glfwGetKey(window, GLFW_KEY_SEMICOLON) == GLFW_PRESS)        
+            racket2Translation.y += 0.1;    // POSITIVE TRANSLATION of object along the Y-AXIS        
+        if (glfwGetKey(window, GLFW_KEY_SLASH) == GLFW_PRESS)        
+            racket2Translation.y -= 0.1;    // NEGATIVE TRANSLATION of object aling the Y-AXIS
 
+        if (glfwGetKey(window, GLFW_KEY_LEFT_BRACKET) == GLFW_PRESS)
+        {
+            // POSITIVE ROTATION of object along the Y-AXIS
+            racket2Rotation = vec3(racket2Rotation.x * 0, 1.0f, racket2Rotation.z * 0);
+            if (degrees == 90)
+                degrees = 90;
+            else
+                degrees += 1;
+        }
+        if (glfwGetKey(window, GLFW_KEY_APOSTROPHE) == GLFW_PRESS)
+        {
+            // NEGATIVE ROTATION of object aling the Y-AXIS
+            racket2Rotation = vec3(racket2Rotation.x * 0, 1.0f, racket2Rotation.z * 0);
+            if (degrees == -90)
+                degrees = -90;
+            else
+                degrees -= 1;
+        }
+        if (glfwGetKey(window, GLFW_KEY_RIGHT_BRACKET) == GLFW_PRESS){
+            // POSTIVE ROTATATION of object along the Z-AXIS
+            racket2dRotation = vec3(racket2Rotation.x * 0, racket2Rotation.y * 0, 1.0f);
+            if (degrees >= 90)
+                degrees = 90;
+            else
+                degrees += 1;
+        }
+        if (glfwGetKey(window, GLFW_KEY_BACKSLASH) == GLFW_PRESS){
+            // NEGATIVE ROTATION of object along the Z-AXIS
+            racket2dRotation = vec3(racket2dRotation.x * 0, racket2dRotation.y * 0, 1.0f);
+            if (degrees <= -90)
+                degrees = -90;
+            else
+                degrees -= 1;
+        }
+        if (glfwGetKey(window, GLFW_KEY_MINUS) == GLFW_PRESS){
+            // POSITIVE ROTATION of object along the X-AXIS
+            racket2dRotation = vec3(1.0f, racket2dRotation.y * 0, racket2dRotation.z * 0);
+            if (degrees >= 90)
+                degrees = 90;
+            else
+                degrees += 1;
+        }
+        if (glfwGetKey(window, GLFW_KEY_EQUAL) == GLFW_PRESS){
+            // NEGATIVE ROTATION of object aling the X-AXIS
+            racket2dRotation = vec3(1.0f, racket2dRotation.y * 0, racket2dRotation.z * 0);
+            if (degrees <= -90)
+                degrees = -90;
+            else
+                degrees -= 1;
+        }
+        /**************************************************************************************/
 
         // Moving camera:
         bool fastCam = glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
