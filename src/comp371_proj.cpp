@@ -721,7 +721,7 @@ int main(int argc, char *argv[])
     const float ballMovementSpeed = 5.0f;
 
     BallMovement ballMovement(startPosition, ballMovementSpeed * movementDirection, shaderProgram, targetPosition);
-  
+
     // Entering main loop:
     while (!glfwWindowShouldClose(window))
     {
@@ -808,6 +808,9 @@ int main(int argc, char *argv[])
             // Draw tennis pole net:
             drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, -21.5f));
 
+            // Adding a scoreboard to center court
+            draw_scoreboard(shadowProgram, vec3(60.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
+
             // Adding a tennis court in the negative z-plane
             {
                 // Draw a world ground:
@@ -818,6 +821,8 @@ int main(int argc, char *argv[])
                 drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f));
                 // Draw tennis pole net:
                 drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, 81.5f));
+                // Adding a scoreboard to negative z-court
+                draw_scoreboard(shadowProgram, vec3(60.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
             }
             // Adding a tennis court in the positive z-plane
             {
@@ -829,6 +834,8 @@ int main(int argc, char *argv[])
                 drawPoles(shadowProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f));
                 // Draw tennis pole net:
                 drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, 81.5f));
+                // Adding a scoreboard to positive z-court
+                draw_scoreboard(shadowProgram, vec3(60.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
             }
             // Draw crowd:
             draw_crowd(shadowProgram, vec3(0.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
@@ -1134,14 +1141,25 @@ int main(int argc, char *argv[])
 
             drawGround(textureProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 0.0f));
             drawGround(textureProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, -60.0f)); // For Tennis court in the negative z-plane
-            drawGround(textureProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 60.0f)); // For Tennis court in the positive z-plane
+            drawGround(textureProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 60.0f));  // For Tennis court in the positive z-plane
+
+            SetUniform1Value(textureProgram, "textureSampler", 1);
+            glBindTexture(GL_TEXTURE_2D, scoreboardTextureID);
+
+            draw_scoreboard(textureProgram, vec3(60.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));     // Adding a scoreboard to center court
+            draw_scoreboard(textureProgram, vec3(60.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f)); // Adding a scoreboard to negative z-court
+            draw_scoreboard(textureProgram, vec3(60.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));  // Adding a scoreboard to positive z-court
         }
         else
         {
             SetUniformVec3(shaderProgram, "object_color", vec3(0.4f, 0.46f, 0.23f)); // updates the color of the ground
             drawGround(shaderProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 0.0f));
             drawGround(shaderProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, -60.0f)); // For Tennis court in the negative z-plane
-            drawGround(shaderProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 60.0f)); // For Tennis court in the positive z-plane
+            drawGround(shaderProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 60.0f));  // For Tennis court in the positive z-plane
+
+            draw_scoreboard(shaderProgram, vec3(60.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));     // Adding a scoreboard to center court
+            draw_scoreboard(shaderProgram, vec3(60.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f)); // Adding a scoreboard to negative z-court
+            draw_scoreboard(shaderProgram, vec3(60.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));  // Adding a scoreboard to positive z-court
         }
 
         // Draw court surface:
@@ -1163,31 +1181,31 @@ int main(int argc, char *argv[])
 
             drawCourt(textureProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 0.0f));
             drawCourt(textureProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, -60.0f)); // For Tennis court int the negative z-plane
-            drawCourt(textureProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 60.0f)); // For Tennis court int the positive z-plane
+            drawCourt(textureProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 60.0f));  // For Tennis court int the positive z-plane
         }
         else
         {
             SetUniformVec3(shaderProgram, "object_color", vec3(0.55f, 0.25f, 0.31f)); // updates the color of the court
             drawCourt(shaderProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 0.0f));
             drawCourt(shaderProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, -60.0f)); // For Tennis court int the negative z-plane
-            drawCourt(shaderProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 60.0f)); // For Tennis court int the positive z-plane
+            drawCourt(shaderProgram, shaderProgram, vec3(76.0f, 0.01f, 34.0f), vec3(0.0f, -0.05f, 60.0f));  // For Tennis court int the positive z-plane
         }
 
         // Draw tennis poles:
         SetUniformVec3(shaderProgram, "object_color", vec3(0.25f, 0.27f, 0.2f)); // updates the color of the tennis poles
         drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, -21.5f));
         drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, -81.5f)); // For Tennis court int the negative z-plane
-        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f)); // For Tennis court int the positive z-plane
+        drawPoles(shaderProgram, vec3(1.0f, 6.6f, 1.0f), vec3(0.0f, 3.3f, 81.5f));  // For Tennis court int the positive z-plane
 
         // Draw tennis pole net:
         SetUniformVec3(shaderProgram, "object_color", vec3(0.7f, 0.74f, 0.98f)); // updates the color of the tennis net
         drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, -21.5f));
         drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, -81.5f)); // For Tennis court int the negative z-plane
-        drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, 81.5f)); // For Tennis court int the positive z-plane
+        drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, 81.5f));  // For Tennis court int the positive z-plane
 
-      
         // Draw crowd:
-        if (textureEnable) {
+        if (textureEnable)
+        {
 
             // We also have to set the shading_ambient_strength, shading_diffuse_strength, shading_specular_strength, and shininess uniforms for the textureProgram to correspond to grass properties:
             SetUniformVec3(textureProgram, "ambient_material", vec3(0.3f, 0.3f, 0.3f));
@@ -1216,7 +1234,8 @@ int main(int argc, char *argv[])
             draw_crowd(textureProgram, vec3(-60.0f, 4.0f, 16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
             draw_crowd(textureProgram, vec3(-60.0f, 4.0f, -16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
         }
-        else {
+        else
+        {
 
             draw_crowd(shaderProgram, vec3(0.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
             draw_crowd(shaderProgram, vec3(16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
@@ -1235,11 +1254,9 @@ int main(int argc, char *argv[])
             draw_crowd(shaderProgram, vec3(-60.0f, 4.0f, -16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
         }
 
-      
         // Draw proper shader:
         glUseProgram(shaderProgram);
 
-      
         // Draw the coordinate system axes:
         // Again this can be done using the cube model.
         // The cube model is scaled in the direction of the corresponding axis from the coordinate system.
