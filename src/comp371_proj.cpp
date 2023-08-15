@@ -809,7 +809,7 @@ int main(int argc, char *argv[])
             drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, -21.5f));
 
             // Adding a scoreboard to center court
-            draw_scoreboard(shadowProgram, vec3(60.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
+            draw_scoreboard(shadowProgram, vec3(55.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
 
             // Adding a tennis court in the negative z-plane
             {
@@ -822,7 +822,7 @@ int main(int argc, char *argv[])
                 // Draw tennis pole net:
                 drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, 81.5f));
                 // Adding a scoreboard to negative z-court
-                draw_scoreboard(shadowProgram, vec3(60.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
+                draw_scoreboard(shadowProgram, vec3(55.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
             }
             // Adding a tennis court in the positive z-plane
             {
@@ -835,24 +835,24 @@ int main(int argc, char *argv[])
                 // Draw tennis pole net:
                 drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, 81.5f));
                 // Adding a scoreboard to positive z-court
-                draw_scoreboard(shadowProgram, vec3(60.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
+                draw_scoreboard(shadowProgram, vec3(55.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));
             }
             // Draw crowd:
-            draw_crowd(shadowProgram, vec3(0.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shadowProgram, vec3(16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shadowProgram, vec3(-16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(0.0f, 6.0f, 100.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(30.0f, 6.0f, 100.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(-30.0f, 6.0f, 100.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
 
-            draw_crowd(shadowProgram, vec3(0.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shadowProgram, vec3(16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shadowProgram, vec3(-16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(0.0f, 6.0f, -100.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(30.0f, 6.0f, -100.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(-30.0f, 6.0f, -100.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
 
-            draw_crowd(shadowProgram, vec3(60.0f, 4.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shadowProgram, vec3(60.0f, 4.0f, 16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shadowProgram, vec3(60.0f, 4.0f, -16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(69.0f, 6.0f, 0.0f), -100.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(69.0f, 6.0f, 30.0f), -100.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(69.0f, 6.0f, -30.0f), -100.0f, vec3(0.0f, 1.0f, 0.0f));
 
-            draw_crowd(shadowProgram, vec3(-60.0f, 4.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shadowProgram, vec3(-60.0f, 4.0f, 16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shadowProgram, vec3(-60.0f, 4.0f, -16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(-69.0f, 6.0f, 0.0f), 100.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(-69.0f, 6.0f, 30.0f), 100.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(-69.0f, 6.0f, -50.0f), 100.0f, vec3(0.0f, 1.0f, 0.0f));
 
             // Draw the coordinate system axes:
             coordinateWorldMatrix = mat4(1.0f); // matrix corresponding to the coordinate system axes
@@ -1146,9 +1146,9 @@ int main(int argc, char *argv[])
             SetUniform1Value(textureProgram, "textureSampler", 1);
             glBindTexture(GL_TEXTURE_2D, scoreboardTextureID);
 
-            draw_scoreboard(textureProgram, vec3(60.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));     // Adding a scoreboard to center court
-            draw_scoreboard(textureProgram, vec3(60.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f)); // Adding a scoreboard to negative z-court
-            draw_scoreboard(textureProgram, vec3(60.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));  // Adding a scoreboard to positive z-court
+            draw_scoreboard(textureProgram, vec3(55.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));     // Adding a scoreboard to center court
+            draw_scoreboard(textureProgram, vec3(55.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f)); // Adding a scoreboard to negative z-court
+            draw_scoreboard(textureProgram, vec3(55.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));  // Adding a scoreboard to positive z-court
         }
         else
         {
@@ -1157,9 +1157,9 @@ int main(int argc, char *argv[])
             drawGround(shaderProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, -60.0f)); // For Tennis court in the negative z-plane
             drawGround(shaderProgram, vec3(125.0f, 0.01f, 60.0f), vec3(0.0f, -0.06f, 60.0f));  // For Tennis court in the positive z-plane
 
-            draw_scoreboard(shaderProgram, vec3(60.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));     // Adding a scoreboard to center court
-            draw_scoreboard(shaderProgram, vec3(60.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f)); // Adding a scoreboard to negative z-court
-            draw_scoreboard(shaderProgram, vec3(60.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));  // Adding a scoreboard to positive z-court
+            draw_scoreboard(shaderProgram, vec3(55.0f, 5.5f, 0.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));     // Adding a scoreboard to center court
+            draw_scoreboard(shaderProgram, vec3(55.0f, 5.5f, -60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f)); // Adding a scoreboard to negative z-court
+            draw_scoreboard(shaderProgram, vec3(55.0f, 5.5f, 60.0f), vec3(22.0f, 11.0f, 0.5f), -90.f, vec3(0.0f, 1.0f, 0.0f));  // Adding a scoreboard to positive z-court
         }
 
         // Draw court surface:
@@ -1218,40 +1218,40 @@ int main(int argc, char *argv[])
             SetUniform1Value(textureProgram, "textureSampler", 3);
             glBindTexture(GL_TEXTURE_2D, crowdTextureID);
 
-            draw_crowd(textureProgram, vec3(0.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(textureProgram, vec3(16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(textureProgram, vec3(-16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(0.0f, 6.0f, 100.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(30.0f, 6.0f, 100.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(-30.0f, 6.0f, 100.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
 
-            draw_crowd(textureProgram, vec3(0.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(textureProgram, vec3(16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(textureProgram, vec3(-16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(0.0f, 6.0f, -100.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(30.0f, 6.0f, -100.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(-30.0f, 6.0f, -100.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
 
-            draw_crowd(textureProgram, vec3(60.0f, 4.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(textureProgram, vec3(60.0f, 4.0f, 16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(textureProgram, vec3(60.0f, 4.0f, -16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(69.0f, 6.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(69.0f, 6.0f, 30.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(69.0f, 6.0f, -30.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
 
-            draw_crowd(textureProgram, vec3(-60.0f, 4.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(textureProgram, vec3(-60.0f, 4.0f, 16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(textureProgram, vec3(-60.0f, 4.0f, -16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(-69.0f, 6.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(-69.0f, 6.0f, 30.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(-69.0f, 6.0f, -30.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
         }
         else
         {
 
-            draw_crowd(shaderProgram, vec3(0.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shaderProgram, vec3(16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shaderProgram, vec3(-16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(0.0f, 6.0f, 100.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(30.0f, 6.0f, 100.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(-30.0f, 6.0f, 100.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
 
-            draw_crowd(shaderProgram, vec3(0.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shaderProgram, vec3(16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shaderProgram, vec3(-16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(0.0f, 6.0f, -100.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(30.0f, 6.0f, -100.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(-30.0f, 6.0f, -100.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
 
-            draw_crowd(shaderProgram, vec3(60.0f, 4.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shaderProgram, vec3(60.0f, 4.0f, 16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shaderProgram, vec3(60.0f, 4.0f, -16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(69.0f, 6.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(69.0f, 6.0f, 30.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(69.0f, 6.0f, -30.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
 
-            draw_crowd(shaderProgram, vec3(-60.0f, 4.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shaderProgram, vec3(-60.0f, 4.0f, 16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
-            draw_crowd(shaderProgram, vec3(-60.0f, 4.0f, -16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(-69.0f, 6.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(-69.0f, 6.0f, 30.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(-69.0f, 6.0f, -30.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
         }
 
         // Draw proper shader:
@@ -1264,7 +1264,7 @@ int main(int argc, char *argv[])
         // the cube should also be translated in the positive direction by half the amount it was scaled up.
 
         // The x-axis model:
-        coordinateWorldMatrix = translate(mat4(1.0f), vec3(2.5f, 0.025f, 0.0f)) * scale(mat4(1.0f), vec3(5.0f, 0.05f, 0.05f));
+        coordinateWorldMatrix = translate(mat4(1.0f), vec3(2.5f, 0.025f, 0.0f)) * scale(mat4(1.0f), vec3(6.0f, 0.05f, 0.05f));
 
         SetUniformMat4(shaderProgram, "world_matrix", coordinateWorldMatrix);
         SetUniformVec3(shaderProgram, "object_color", vec3(1.0f, 0.0f, 0.0f)); // update the color of the x-axis
