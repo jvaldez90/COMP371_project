@@ -239,8 +239,6 @@ void draw_crowd(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rota
     // Compile and link shaders
     glUseProgram(shaderProgram);
 
-    SetUniformVec3(shaderProgram, "object_color", colors[1]); // Set active color White
-
     mat4 crowd = translate(mat4(1.0), translateBy) *
                  rotate(mat4(1.0), radians(degrees), rotateOn) *               // Rotation placement in world model
                  rotate(mat4(1.0), radians(-240.0f), vec3(1.0f, 0.0f, 0.0f)) * // Adjusts texture orientation
@@ -254,8 +252,6 @@ void draw_scoreboard(GLuint shaderProgram, vec3 translateBy, vec3 scaleBy, float
 {
     // Compile and link shaders
     glUseProgram(shaderProgram);
-
-    SetUniformVec3(shaderProgram, "object_color", colors[9]); // Set active color Dark Green
 
     mat4 scoreboard = translate(mat4(1.0), translateBy) *
                       rotate(mat4(1.0), radians(degrees), rotateOn) *              // Rotation placement in world model
