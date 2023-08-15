@@ -14,6 +14,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <list>
 
 #define GLEW_STATIC 1 // this allows linking with Static Library on Windows, without DLL
 #include <GL/glew.h>  // include GLEW - OpenGL Extension Wrangler
@@ -457,6 +458,48 @@ unsigned int loadCubemap(vector<string> faces)
     return textureID;
 }
 
+
+// Class representing the movement of the ball during simulation.
+// The idea was inspired from the lab's projectile code (lab 3).
+class BallMovement {
+public:
+    BallMovement(vec3 position, vec3 velocity, int shaderP, vec3 targetPosition)
+        : mPosition(position), mVelocity(velocity), mTargetPosition(targetPosition) {
+        mWorldMatrixLocation = glGetUniformLocation(shaderP, "world_matrix");
+    }
+    
+    void Update(float dt) {
+        mPosition += mVelocity * dt;
+        
+        if (glm::length(mPosition - mTargetPosition) < glm::length(mVelocity) * dt) {
+            temp = mPosition;
+            mPosition = mTargetPosition;
+            mTargetPosition = temp;
+            mVelocity = -mVelocity; // Reverse direction
+            swap(mPosition, mTargetPosition); // Swap positions
+        }
+    }
+
+    void Draw(int texturedSphereVAO, mat4 prevMatrix, GLenum renderMode, int sphereVertexCount) {
+                
+        // Bind geometry:
+        glBindVertexArray(texturedSphereVAO);
+
+        mat4 ballMovementPartMatrix = translate(mat4(1.0f), mPosition) * scale(mat4(1.0f), vec3(1.0f, 1.0f, 1.0f));
+        mat4 worldMatrix = prevMatrix * ballMovementPartMatrix;
+        glUniformMatrix4fv(mWorldMatrixLocation, 1, GL_FALSE, &worldMatrix[0][0]);
+        glDrawElements(renderMode, sphereVertexCount, GL_UNSIGNED_INT, 0);
+    }
+
+private:
+    vec3 temp;
+    vec3 mPosition;
+    vec3 mVelocity;
+    vec3 mTargetPosition;
+    GLuint mWorldMatrixLocation;
+};
+
+
 int main(int argc, char *argv[])
 {
     if (!InitContext())
@@ -475,7 +518,7 @@ int main(int argc, char *argv[])
     GLuint scoreboardTextureID = loadTexture("../assets/textures/scoreboard.jpg");
 
     // Load the skybox faces:
-    std::vector<std::string> faces;
+    vector<string> faces;
 
     faces.push_back("../assets/skybox/right.jpg");
     faces.push_back("../assets/skybox/left.jpg");
@@ -665,6 +708,19 @@ int main(int argc, char *argv[])
     float lastFrameTime = glfwGetTime();
     double lastMousePosX, lastMousePosY;                      // variables needed to hold the info about the last mouse x and y positions
     glfwGetCursorPos(window, &lastMousePosX, &lastMousePosY); // stores the last mouse x and y positions in the corresponding variables
+
+  
+    // Needed to check whether the game simulation was started or not:
+    int lastYState = GLFW_RELEASE;
+
+  
+    vec3 startPosition(0.0f, -4.0f, 4.0f);
+    vec3 targetPosition(0.0f, -4.0f, 24.0f);
+    vec3 movementDirection(0.0f, 0.0f, 1.0f);
+    const float ballMovementSpeed = 15.0f;
+
+    BallMovement ballMovement(startPosition, ballMovementSpeed * movementDirection, shaderProgram, targetPosition);
+
 
     // Entering main loop:
     while (!glfwWindowShouldClose(window))
@@ -990,22 +1046,6 @@ int main(int argc, char *argv[])
 
                 glDrawArrays(renderMode, 0, 36); // 36 vertices, starting at index 0
             }
-
-            // Bind geometry:
-            glBindVertexArray(texturedSphereVAO); // needed since we are no longer drawing cubes, we are now drawing spheres
-
-            // Draw the tennis ball:
-            ballPartMatrix = mat4(1.0f);  // matrix corresponding to the tennis ball part
-            ballGroupMatrix = mat4(1.0f); // matrix corresponding to the tennis group group
-            worldMatrix = mat4(1.0f);
-
-            ballGroupMatrix *= translate(mat4(1.0f), vec3(0.0f, -4.0f, 4.0f));
-
-            worldMatrix = lowerHandGroupMatrix * firstJointGroupMatrix * upperHandGroupMatrix * secondJointGroupMatrix * tennisRacketGroupMatrix * ballGroupMatrix * ballPartMatrix;
-
-            SetUniformMat4(shadowProgram, "world_matrix", worldMatrix);
-
-            glDrawElements(renderMode, sphereVertexCount, GL_UNSIGNED_INT, 0);
         }
 
         // Unbind geometry:
@@ -1643,43 +1683,20 @@ int main(int argc, char *argv[])
         // Bind geometry:
         glBindVertexArray(texturedSphereVAO); // needed since we are no longer drawing cubes, we are now drawing spheres
 
-        // Draw the tennis ball
-        ballGroupMatrix = mat4(1.0f);
+      
+        // Draw the tennis ball:
+      
+        // Draw proper geometry:
+        glUseProgram(shaderProgram);
 
-        ballGroupMatrix *= translate(mat4(1.0f), vec3(0.0f, -4.0f, 4.0f));
+        worldMatrix = lowerHandGroupMatrix * firstJointGroupMatrix * upperHandGroupMatrix * secondJointGroupMatrix * tennisRacketGroupMatrix;
 
-        worldMatrix = lowerHandGroupMatrix * firstJointGroupMatrix * upperHandGroupMatrix * secondJointGroupMatrix * tennisRacketGroupMatrix * ballGroupMatrix * ballPartMatrix;
+        SetUniformVec3(shaderProgram, "object_color", vec3(0.55, 0.88, 0.65));      // update the color of the tennis ball
+        SetUniformMat4(shaderProgram, "world_matrix", worldMatrix);
 
-        if (textureEnable)
-        {
+        ballMovement.Update(dt);
+        ballMovement.Draw(texturedSphereVAO, worldMatrix, renderMode, sphereVertexCount);
 
-            // Draw textured geometry:
-            glUseProgram(textureProgram);
-
-            // We also have to set the shading_ambient_strength, shading_diffuse_strength, shading_specular_strength, and shininess uniforms for the textureProgram to correspond to tennis ball texture properties:
-            SetUniformVec3(textureProgram, "ambient_material", vec3(0.2f, 0.2f, 0.2f));
-            SetUniformVec3(textureProgram, "diffuse_material", vec3(0.1f, 0.7f, 0.2f));
-            SetUniformVec3(textureProgram, "specular_material", vec3(0.7f, 0.7f, 0.7f));
-            glUniform1f(shininessLocation, 5.0f);
-
-            glActiveTexture(GL_TEXTURE3);
-
-            SetUniform1Value(textureProgram, "textureSampler", 3);
-            glBindTexture(GL_TEXTURE_2D, tennisBallGreenTextureID);
-
-            SetUniformMat4(textureProgram, "world_matrix", worldMatrix);
-        }
-        else
-        {
-
-            // Draw proper geometry:
-            glUseProgram(shaderProgram);
-
-            SetUniformVec3(shaderProgram, "object_color", vec3(0.75, 0.58, 0.35)); // update the color of the tennis ball
-            SetUniformMat4(shaderProgram, "world_matrix", worldMatrix);
-        }
-
-        glDrawElements(renderMode, sphereVertexCount, GL_UNSIGNED_INT, 0);
 
         // Unbind geometry:
         glBindVertexArray(0);
