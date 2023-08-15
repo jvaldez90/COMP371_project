@@ -596,8 +596,8 @@ int main(int argc, char *argv[])
     glDrawBuffer(GL_NONE); // disable rendering colors, only write depth values
 
     // Model initial position coordinates:
-    float x = -10.0f;
-    float y = 0.0f;
+    float x = -20.0f;
+    float y = 4.5f;
     float z = 0.0f;
 
     // Model updated position coordinates after it is repositioned:
@@ -622,7 +622,7 @@ int main(int argc, char *argv[])
     GLenum renderMode = GL_TRIANGLES;
 
     // Global Variables for 2nd Racket transformations
-    vec3 racket2Translation = vec3(2.0f, 1.0f, 0.0f);
+    vec3 racket2Translation = vec3(20.0f, 0.0f, 0.0f);
     float degrees = 0.0f;
     vec3 racket2Rotation = vec3(0.0f, 1.0f, 0.0f);
     vec3 racket2Scale = vec3(2.0f, 2.0f, 2.0f);
@@ -645,7 +645,7 @@ int main(int argc, char *argv[])
     bool is8Pressed = false;
 
     // Camera parameters for view transform:
-    vec3 cameraPosition(0.0f, 15.0f, 30.0f);
+    vec3 cameraPosition(3.0f, 25.0f, 30.0f);
     vec3 cameraLookAt(0.0f, 0.0f, -1.0f);
     vec3 cameraUp(0.0f, 1.0f, 0.0f);
 
@@ -716,12 +716,12 @@ int main(int argc, char *argv[])
     int lastYState = GLFW_RELEASE;
 
     vec3 startPosition(0.0f, -4.0f, 4.0f);
-    vec3 targetPosition(0.0f, -4.0f, 24.0f);
+    vec3 targetPosition(0.0f, -4.0f, 57.0f);
     vec3 movementDirection(0.0f, 0.0f, 1.0f);
-    const float ballMovementSpeed = 15.0f;
+    const float ballMovementSpeed = 5.0f;
 
     BallMovement ballMovement(startPosition, ballMovementSpeed * movementDirection, shaderProgram, targetPosition);
-
+  
     // Entering main loop:
     while (!glfwWindowShouldClose(window))
     {
@@ -830,6 +830,22 @@ int main(int argc, char *argv[])
                 // Draw tennis pole net:
                 drawPoleNet(shadowProgram, vec3(0.1f, 2.5f, 0.1f), vec3(12.5f, 3.3f, 81.5f));
             }
+            // Draw crowd:
+            draw_crowd(shadowProgram, vec3(0.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(-16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            draw_crowd(shadowProgram, vec3(0.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(-16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            draw_crowd(shadowProgram, vec3(60.0f, 4.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(60.0f, 4.0f, 16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(60.0f, 4.0f, -16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            draw_crowd(shadowProgram, vec3(-60.0f, 4.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(-60.0f, 4.0f, 16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shadowProgram, vec3(-60.0f, 4.0f, -16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
 
             // Draw the coordinate system axes:
             coordinateWorldMatrix = mat4(1.0f); // matrix corresponding to the coordinate system axes
@@ -859,7 +875,7 @@ int main(int argc, char *argv[])
 
             lowerHandPartMatrix = scale(mat4(1.0f), vec3(5.0f, 1.0f, 1.0f));
 
-            lowerHandGroupMatrix *= translate(mat4(1.0f), vec3(x, y, z)) * rotate(mat4(1.0f), radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+            lowerHandGroupMatrix *= translate(mat4(1.0f), vec3(x, y, z)) * rotate(mat4(1.0f), radians(90.0f), vec3(0.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.7f, 0.7f, 0.7f));
 
             // Model shadow manipulations:
             if (isSpacePressed)
@@ -1169,6 +1185,61 @@ int main(int argc, char *argv[])
         drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, -81.5f)); // For Tennis court int the negative z-plane
         drawPoleNet(shaderProgram, vec3(0.1f, 2.5f, 0.1f), vec3(2.5f, 3.3f, 81.5f)); // For Tennis court int the positive z-plane
 
+      
+        // Draw crowd:
+        if (textureEnable) {
+
+            // We also have to set the shading_ambient_strength, shading_diffuse_strength, shading_specular_strength, and shininess uniforms for the textureProgram to correspond to grass properties:
+            SetUniformVec3(textureProgram, "ambient_material", vec3(0.3f, 0.3f, 0.3f));
+            SetUniformVec3(textureProgram, "diffuse_material", vec3(0.2f, 0.6f, 0.3f));
+            SetUniformVec3(textureProgram, "specular_material", vec3(0.2f, 0.2f, 0.2f));
+            glUniform1f(shininessLocation, 5.0f);
+
+            glActiveTexture(GL_TEXTURE3);
+
+            SetUniform1Value(textureProgram, "textureSampler", 3);
+            glBindTexture(GL_TEXTURE_2D, crowdTextureID);
+
+            draw_crowd(textureProgram, vec3(0.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(-16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            draw_crowd(textureProgram, vec3(0.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(-16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            draw_crowd(textureProgram, vec3(60.0f, 4.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(60.0f, 4.0f, 16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(60.0f, 4.0f, -16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            draw_crowd(textureProgram, vec3(-60.0f, 4.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(-60.0f, 4.0f, 16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(textureProgram, vec3(-60.0f, 4.0f, -16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+        }
+        else {
+
+            draw_crowd(shaderProgram, vec3(0.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(-16.0f, 4.0f, 36.0f), 180.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            draw_crowd(shaderProgram, vec3(0.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(-16.0f, 4.0f, -36.0f), 0.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            draw_crowd(shaderProgram, vec3(60.0f, 4.0f, 0.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(60.0f, 4.0f, 16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(60.0f, 4.0f, -16.0f), -90.0f, vec3(0.0f, 1.0f, 0.0f));
+
+            draw_crowd(shaderProgram, vec3(-60.0f, 4.0f, 0.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(-60.0f, 4.0f, 16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            draw_crowd(shaderProgram, vec3(-60.0f, 4.0f, -16.0f), 90.0f, vec3(0.0f, 1.0f, 0.0f));
+        }
+
+      
+        // Draw proper shader:
+        glUseProgram(shaderProgram);
+
+      
         // Draw the coordinate system axes:
         // Again this can be done using the cube model.
         // The cube model is scaled in the direction of the corresponding axis from the coordinate system.
@@ -1212,7 +1283,7 @@ int main(int argc, char *argv[])
         // It allows to treat all the parts as a single model that can be manipulated as one entity.
         // Here, rotation and translation are used to ensure that the whole model faces x-axis.
         // We also translate it by (y + 0.5f) in the y direction to ensure that the whole model is above the ground surface (does not go through it).
-        lowerHandGroupMatrix *= translate(mat4(1.0f), vec3(x, (y + 0.5f), z)) * rotate(mat4(1.0f), radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+        lowerHandGroupMatrix *= translate(mat4(1.0f), vec3(x, (y + 0.5f), z)) * rotate(mat4(1.0f), radians(90.0f), vec3(0.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.7f, 0.7f, 0.7f));
 
         // Model manipulations:
         // If the space bar is pressed, we multiply the original group matrix by the translation of our model by the new x and z position.
