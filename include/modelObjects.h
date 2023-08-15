@@ -242,7 +242,7 @@ void draw_crowd(GLuint shaderProgram, vec3 translateBy, float degrees, vec3 rota
     mat4 crowd = translate(mat4(1.0), translateBy) *
                  rotate(mat4(1.0), radians(degrees), rotateOn) *               // Rotation placement in world model
                  rotate(mat4(1.0), radians(-240.0f), vec3(1.0f, 0.0f, 0.0f)) * // Adjusts texture orientation
-                 scale(mat4(1.0), vec3(8.0, 8.0, 0.05f));
+                 scale(mat4(1.0), vec3(16.0f, 16.0f, 0.05f));
     SetUniformMat4(shaderProgram, "world_matrix", crowd);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }
